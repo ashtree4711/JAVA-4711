@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="javadoc">
+	<target name="javadoc">
+		<javadoc access="private" additionalparam=" -encoding UTF-8 -docencoding ISO-8859-1 "
+			author="true" classpath="lib/swing-layout-1.0.jar;lib/junit.jar" destdir="doc"
+			nodeprecated="false" nodeprecatedlist="false" noindex="false"
+			nonavbar="true" notree="false" packagenames="*" source="1.7"
+			sourcepath="src" splitindex="true" use="true" version="true">
+			<link href="https://docs.oracle.com/javase/7/docs/api/" />
+		</javadoc>
+	</target>
+</project>
