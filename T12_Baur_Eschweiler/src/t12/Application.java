@@ -3,6 +3,7 @@ package t12;
 import t12.phones.console.ConsolePhone;
 import t12.phones.gui.SpinPhone;
 import t12.spinphone.T12Interpreter;
+import t12.spinphone.TMT12Interpreter;
 
 /**
  * <p>
@@ -41,7 +42,7 @@ public class Application {
 	public static void main(String[] args) {
 
 		useGUIPhone();
-		// useConsolePhone();
+		//useConsolePhone();
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class Application {
 	private static void useGUIPhone() {
 		SpinPhone phone = new SpinPhone();
 		// Folgende Zeile ändern ( = new MeinT12Interpreter() o.ä.)
-		T12Interpreter interpreter = null;
+		TMT12Interpreter interpreter = new TMT12Interpreter();
 		phone.connectToT12(interpreter);
 	}
 
@@ -82,7 +83,7 @@ public class Application {
 	public static void useConsolePhone() {
 		ConsolePhone phone = new ConsolePhone();
 		// Folgende Zeile ändern ( = new MeinT12Interpreter() o.ä.)
-		T12Interpreter interpreter = null;
+		TMT12Interpreter interpreter = new TMT12Interpreter();
 		phone.connectToT12(interpreter);
 
 		phone.createLexicon("data", "SpinPhone.lex");
