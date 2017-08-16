@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TMT12Interpreter implements T12Interpreter {
 	
-	public Lexicon Lex = new Lexicon();
+	public Corpus Lex = new Corpus();
 	
 	public List<String> index = new ArrayList<String>();
 

@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.BreakIterator;
 import java.util.*;
 
-public class Lexicon {
+public class Corpus {
 	
 	public List<File> dateien = new ArrayList<>();
 	
