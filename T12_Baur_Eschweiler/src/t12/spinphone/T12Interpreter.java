@@ -51,7 +51,6 @@ public interface T12Interpreter {
 	 * @param lexFilePath
 	 *            Pfad zur Lexikondatei
 	 */
-
 	public void loadLexicon(String lexFilePath);
 
 	/**
@@ -96,7 +95,7 @@ public interface T12Interpreter {
 	 * wahrscheinlichste Zeichenfolge, die der (reduzierten) Eingabe entspricht,
 	 * zurückgegeben werden.
 	 * 
-	 * @return die wahrscheinlichste Zeichenfolge nach der Reuduzierung, oder
+	 * @return die wahrscheinlichste Zeichenfolge nach der Reduzierung, oder
 	 *         null, falls das letzte/erste Zeichen gelöscht wurde
 	 */
 	public String delButtonPressed();
@@ -114,7 +113,8 @@ public interface T12Interpreter {
 	 * zurückgeben. Danach erscheinen Sie als Autor des Programms im
 	 * "Über dieses Programm"-Dialog.
 	 * 
-	 * @return Ihr Name
+	 * @author thomas
+	 * @return Namen der Programmautoren
 	 */
 	public String getAuthorName();
 
