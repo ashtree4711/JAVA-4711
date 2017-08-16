@@ -1,6 +1,15 @@
 package t12.spinphone;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TMT12Interpreter implements T12Interpreter {
+	
+	public Lexicon Lex = new Lexicon();
+	
+	public List<String> index = new ArrayList<String>();
 
 	@Override
 	public String buttonPressed(int number) {
@@ -11,7 +20,15 @@ public class TMT12Interpreter implements T12Interpreter {
 	@Override
 	public void generateLexicon(String pathToTexts, String lexFileDestination) {
 		// TODO Auto-generated method stub
-		
+		List<File> files = Lex.crawlFilesFromPath(pathToTexts);
+		try {
+			this.index = Lex.getTokensFromFiles(files, true);
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}
+		for(int i=0; i < index.size(); i++) {
+		System.out.print(index.get(i) + "\r\n");
+		}
 	}
 
 	@Override
@@ -58,8 +75,9 @@ public class TMT12Interpreter implements T12Interpreter {
 
 	@Override
 	public String getAuthorName() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String authors = "Mark Eschweiler und Thomas Baur";
+		return authors;
 	}
 
 }
