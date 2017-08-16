@@ -37,9 +37,9 @@ public class TMT12Interpreter implements T12Interpreter {
 			
 		}
 		for (int j = 0; j < lexicon.size(); j++) {
-			System.out.println(lexicon.get(j).getWord());
+			System.out.println(lexicon.get(j).getWord()+"|"+lexicon.get(j).getCodedNumber());
 		}
-		
+		//saveLexicon();
 		
 	}
 
@@ -49,8 +49,15 @@ public class TMT12Interpreter implements T12Interpreter {
 		// TODO Auto-generated method stub
 		
 	}
+	// Mock-Funktion
+	public Lexicon saveLexicon() {
+		
+		//hier wird ein Lexikon-Object einfach so gespeichert
+		return null;
+		
+	}
 	
-
+	
 	@Override
 	public String getAlternative() {
 		// TODO Auto-generated method stub
@@ -60,6 +67,9 @@ public class TMT12Interpreter implements T12Interpreter {
 	@Override
 	public void learn(String newWord) {
 		// TODO Auto-generated method stub
+		// 1. Word-String in bestehendes Lexikon hinzufügen
+		// 2. Lexikon speichern
+		//saveLexicon()
 		
 	}
 
