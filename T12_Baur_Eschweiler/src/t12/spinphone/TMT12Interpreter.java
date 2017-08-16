@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TMT12Interpreter implements T12Interpreter {
 	
-	public Corpus Lex = new Corpus();
+	public Corpus corpus = new Corpus();
 	
 	public List<String> index = new ArrayList<String>();
 
@@ -20,22 +20,36 @@ public class TMT12Interpreter implements T12Interpreter {
 	@Override
 	public void generateLexicon(String pathToTexts, String lexFileDestination) {
 		// TODO Auto-generated method stub
-		List<File> files = Lex.crawlFilesFromPath(pathToTexts);
+		List<File> files = corpus.crawlFilesFromPath(pathToTexts);
 		try {
-			this.index = Lex.getTokensFromFiles(files, true);
+			this.index = corpus.getTokensFromFiles(files, true);
 		} catch (IOException e) {			
 			e.printStackTrace();
 		}
-		for(int i=0; i < index.size(); i++) {
-		System.out.print(index.get(i) + "\r\n");
+		//for(int i=0; i < index.size(); i++) {
+		//System.out.print(index.get(i) + "\r\n");
+		//}
+		Lexicon lexicon = new Lexicon();
+		for (int i = 0; i < index.size(); i++) {
+			WordObject word = new WordObject(index.get(i));
+			//System.out.println(index.get(i) + word.getWord());
+			lexicon.add(word);
+			
 		}
+		for (int j = 0; j < lexicon.size(); j++) {
+			System.out.println(lexicon.get(j).getWord());
+		}
+		
+		
 	}
 
 	@Override
 	public void loadLexicon(String lexFilePath) {
+		
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 	@Override
 	public String getAlternative() {
