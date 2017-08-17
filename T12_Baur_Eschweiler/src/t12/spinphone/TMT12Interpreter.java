@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.omg.Messaging.SyncScopeHelper;
+
 public class TMT12Interpreter implements T12Interpreter {
 	
 	public Corpus corpus = new Corpus();
@@ -26,20 +28,40 @@ public class TMT12Interpreter implements T12Interpreter {
 		} catch (IOException e) {			
 			e.printStackTrace();
 		}
-		//for(int i=0; i < index.size(); i++) {
-		//System.out.print(index.get(i) + "\r\n");
-		//}
 		Lexicon lexicon = new Lexicon();
 		for (int i = 0; i < index.size(); i++) {
 			WordObject word = new WordObject(index.get(i));
-			//System.out.println(index.get(i) + word.getWord());
-			lexicon.add(word);
+			boolean found = false;
+			if (i==0) {
+				lexicon.add(word);
+			}
+			else if (i>0) {
+				for (int j = 0; j < lexicon.size(); j++) {
+					if(index.get(i).equals(lexicon.get(j).getWord())) {
+						lexicon.get(j).raiseFrequency();
+						found = true;
+						//System.out.println("Gotcha!"+lexicon.get(j).getWord()+"|"+lexicon.get(j).getFrequency());
+					}	
+				}
+				if (found == false)
+				{
+					lexicon.add(word);
+				}
+			}
 			
-		}
+			
+			
+			
+			
+	// Er tut was, es dauert!
+			System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
+			}
+			
 		for (int j = 0; j < lexicon.size(); j++) {
-			System.out.println(lexicon.get(j).getWord()+"|"+lexicon.get(j).getKey());
+			System.out.println(lexicon.get(j).getWord()+"|"+lexicon.get(j).getKey()+"|"+lexicon.get(j).getFrequency());
 			
 		}
+		System.out.println("Lexikongröße: "+lexicon.size()+" Wörter");
 		//saveLexicon();
 		
 	}

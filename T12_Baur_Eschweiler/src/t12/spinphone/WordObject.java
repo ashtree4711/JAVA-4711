@@ -26,6 +26,7 @@ public class WordObject implements Serializable{
 		this.key = convertToKey(word);
 		this.frequency = 1;
 		
+		
 	}
 	public String getWord() {
 		return word;
@@ -74,7 +75,7 @@ public class WordObject implements Serializable{
 	 * @author Mark Eschweiler
 	 */
 	public void raiseFrequency() {
-		this.frequency = frequency++;
+		this.frequency++;
 	}
 	@Override
 	public String toString() {
