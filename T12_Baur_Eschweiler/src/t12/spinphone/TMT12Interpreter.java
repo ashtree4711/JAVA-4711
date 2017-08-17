@@ -37,7 +37,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			
 		}
 		for (int j = 0; j < lexicon.size(); j++) {
-			System.out.println(lexicon.get(j).getWord()+"|"+lexicon.get(j).getCodedNumber());
+			System.out.println(lexicon.get(j).getWord()+"|"+lexicon.get(j).getKey());
 			
 		}
 		//saveLexicon();
