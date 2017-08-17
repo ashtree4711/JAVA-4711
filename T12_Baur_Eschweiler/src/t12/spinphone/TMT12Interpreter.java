@@ -28,6 +28,11 @@ public class TMT12Interpreter implements T12Interpreter {
 		} catch (IOException e) {			
 			e.printStackTrace();
 		}
+		/*
+		 * Während der Lexikonaufnahme wird überprüft, ob das Wort bereits vorhanden ist. Wenn nicht, wird es eingetragen,
+		 * wenn doch, wird die Häufigkeit im passenden Wort-Objekt erhöht und kein neues Objekt erzeugt. Aktuell wird jedes 10. Objekt ins Lexikon aufgenommen
+		 */
+		
 		Lexicon lexicon = new Lexicon();
 		for (int i = 0; i < index.size(); i++) {
 			WordObject word = new WordObject(index.get(i));
@@ -48,11 +53,6 @@ public class TMT12Interpreter implements T12Interpreter {
 					lexicon.add(word);
 				}
 			}
-			
-			
-			
-			
-			
 	// Er tut was, es dauert!
 			System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
 			}
