@@ -37,7 +37,7 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		Lexicon lexicon = new Lexicon();
 		//index.size() aus Testgründen auf 20000 geändert
-		for (int i = 0; i < 20000; i++) {
+		for (int i = 0; i < index.size(); i++) {
 			WordObject word = new WordObject(index.get(i));
 			boolean found = false;
 			if (i==0) {
@@ -63,6 +63,16 @@ public class TMT12Interpreter implements T12Interpreter {
 	// Er tut was, es dauert!
 			System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
 			}
+		
+	//currentLexicon nimmt nur alle Wörter auf, die mindestens zweimal im Corpus vorkommen
+		Lexicon currentLexicon = new Lexicon();
+		for (int i = 0; i < lexicon.size(); i++) {
+			if (lexicon.get(i).getFrequency()>1) {
+				currentLexicon.add(lexicon.get(i));
+			}
+			
+		}
+		
 		WordComparator wc = new WordComparator();
 		FrequencyComparator fc = new FrequencyComparator();
 		KeyComparator kc = new KeyComparator();
@@ -79,7 +89,7 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		//Test-Abfrage für Filterung
 		
-
+		/*
 		for (int j = 0; j < 1000; j++) {
 			if(lexicon.get(j).getKey().charAt(0) =='7') {
 				System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
@@ -87,6 +97,15 @@ public class TMT12Interpreter implements T12Interpreter {
 			
 			
 		}
+		*/
+		int counter=0;
+		for (int i = 0; i < lexicon.size(); i++) {
+			if (lexicon.get(i).getFrequency()>1) {
+				counter++;
+				System.out.println(lexicon.get(i).getWord()+" | "+lexicon.get(i).getKey()+" | "+lexicon.get(i).getFrequency());
+			}
+		}
+		System.out.println("Wörter mit Häufigkeit von mindesens 2: "+counter);
 		
 		//saveLexicon();
 		
