@@ -79,8 +79,10 @@ public class WordObject implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "WordObject [codedNumber=" + key + "]";
+		return "WordObject [key=" + key + "]";
 	}
+	
+	
 
 	
 	

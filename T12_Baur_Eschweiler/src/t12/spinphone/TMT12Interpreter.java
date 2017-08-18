@@ -7,6 +7,10 @@ import java.util.List;
 
 import org.omg.Messaging.SyncScopeHelper;
 
+import t12.util.comparator.FrequencyComparator;
+import t12.util.comparator.KeyComparator;
+import t12.util.comparator.WordComparator;
+
 public class TMT12Interpreter implements T12Interpreter {
 	
 	public Corpus corpus = new Corpus();
@@ -53,12 +57,21 @@ public class TMT12Interpreter implements T12Interpreter {
 					lexicon.add(word);
 				}
 			}
+			
+	/*
+	 * TESTUMGEBUNG FÜR DIE KONSOLE, SPÄTER LÖSCHEN!!!
+	 */
 	// Er tut was, es dauert!
 			System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
 			}
-			
+		WordComparator wc = new WordComparator();
+		FrequencyComparator fc = new FrequencyComparator();
+		KeyComparator kc = new KeyComparator();
+		
+		
+		lexicon.sort(fc);	
 		for (int j = 0; j < lexicon.size(); j++) {
-			System.out.println(lexicon.get(j).getWord()+"|"+lexicon.get(j).getKey()+"|"+lexicon.get(j).getFrequency());
+			System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
 			
 		}
 		System.out.println("Lexikongröße: "+lexicon.size()+" Wörter");
