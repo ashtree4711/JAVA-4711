@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.omg.Messaging.SyncScopeHelper;
-
 import t12.util.comparator.FrequencyComparator;
 import t12.util.comparator.KeyComparator;
 import t12.util.comparator.WordComparator;
@@ -38,7 +36,8 @@ public class TMT12Interpreter implements T12Interpreter {
 		 */
 		
 		Lexicon lexicon = new Lexicon();
-		for (int i = 0; i < index.size(); i++) {
+		//index.size() aus Testgründen auf 20000 geändert
+		for (int i = 0; i < 20000; i++) {
 			WordObject word = new WordObject(index.get(i));
 			boolean found = false;
 			if (i==0) {
@@ -71,11 +70,24 @@ public class TMT12Interpreter implements T12Interpreter {
 		System.out.println("Sorting...");
 		lexicon.sort(fc);
 		
+		
 		for (int j = 0; j < lexicon.size(); j++) {
-			System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
+			//System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
 			
 		}
 		System.out.println("Lexikongröße: "+lexicon.size()+" Wörter");
+		
+		//Test-Abfrage für Filterung
+		
+
+		for (int j = 0; j < 1000; j++) {
+			if(lexicon.get(j).getKey().charAt(0) =='7') {
+				System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
+			}
+			
+			
+		}
+		
 		//saveLexicon();
 		
 	}
