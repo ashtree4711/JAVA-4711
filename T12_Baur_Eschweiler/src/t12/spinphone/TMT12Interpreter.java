@@ -68,8 +68,9 @@ public class TMT12Interpreter implements T12Interpreter {
 		FrequencyComparator fc = new FrequencyComparator();
 		KeyComparator kc = new KeyComparator();
 		
+		System.out.println("Sorting...");
+		lexicon.sort(fc);
 		
-		lexicon.sort(fc);	
 		for (int j = 0; j < lexicon.size(); j++) {
 			System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
 			
