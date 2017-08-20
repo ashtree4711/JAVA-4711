@@ -28,12 +28,15 @@ public class WordObject implements Serializable{
 		
 		
 	}
+	
 	public String getWord() {
 		return word;
 	}
+	
 	public void setWord(String word) {
 		this.word = word;
 	}
+	
 	/**
 	 * Das eigentliche Wort als String wird übergeben und in einen String Key konvertiert.
 	 * Die Nutzung von Strings ist sinnvoll, da mit den Keys keine mathematischen Rechnungen erfolgen und
@@ -58,6 +61,7 @@ public class WordObject implements Serializable{
 		
 		return key;
 	}
+	
 	public String getKey() {
 		return key;
 	}
@@ -65,9 +69,11 @@ public class WordObject implements Serializable{
 	public void setCodedNumber(String key) {
 		this.key = key;
 	}
+	
 	public int getFrequency() {
 		return frequency;
 	}
+	
 	/**
 	 * Erhöht bei Aufruf die @param frequency . Die Funktion wird nur aufgerufen, 
 	 * wenn das Wortobjekt @param WordObject 
@@ -77,6 +83,7 @@ public class WordObject implements Serializable{
 	public void raiseFrequency() {
 		this.frequency++;
 	}
+	
 	@Override
 	public String toString() {
 		return "WordObject [key=" + key + "]";

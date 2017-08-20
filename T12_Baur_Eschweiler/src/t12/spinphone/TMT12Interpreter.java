@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import t12.phones.LexiconSerializationException;
 import t12.util.comparator.FrequencyComparator;
 import t12.util.comparator.KeyComparator;
 import t12.util.comparator.WordComparator;
@@ -12,6 +13,7 @@ import t12.util.comparator.WordComparator;
 public class TMT12Interpreter implements T12Interpreter {
 	
 	public Corpus corpus = new Corpus();
+	public Lexicon lexicon = new Lexicon();
 	
 	public List<String> index = new ArrayList<String>();
 
@@ -35,7 +37,7 @@ public class TMT12Interpreter implements T12Interpreter {
 		 * wenn doch, wird die Häufigkeit im passenden Wort-Objekt erhöht und kein neues Objekt erzeugt. Aktuell wird jedes 10. Objekt ins Lexikon aufgenommen
 		 */
 		
-		Lexicon lexicon = new Lexicon();
+		//Lexicon lexicon = new Lexicon();
 		//index.size() aus Testgründen auf 20000 geändert
 		for (int i = 0; i < index.size(); i++) {
 			WordObject word = new WordObject(index.get(i));
@@ -61,7 +63,7 @@ public class TMT12Interpreter implements T12Interpreter {
 	 * TESTUMGEBUNG FÜR DIE KONSOLE, SPÄTER LÖSCHEN!!!
 	 */
 	// Er tut was, es dauert!
-			System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
+			// System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
 			}
 		
 	//currentLexicon nimmt nur alle Wörter auf, die mindestens zweimal im Corpus vorkommen
@@ -107,21 +109,37 @@ public class TMT12Interpreter implements T12Interpreter {
 		}
 		System.out.println("Wörter mit Häufigkeit von mindesens 2: "+counter);
 		
-		//saveLexicon();
+		saveLexicon(lexicon);
+		
 		
 	}
 
 	@Override
 	public void loadLexicon(String lexFilePath) {
 		
-		// TODO Auto-generated method stub
-		
+		System.out.println(lexFilePath);
+		if (! lexFilePath.isEmpty()) {
+			try {
+				Lexicon.loadLexicon();
+			} catch (ClassNotFoundException e) {				
+				e.printStackTrace();
+			} catch (IOException e) {				
+				e.printStackTrace();
+			}
+		}
+			
 	}
+	
 	// Mock-Funktion
-	public Lexicon saveLexicon() {
+	public void saveLexicon(Lexicon lexicon) {
 		
 		//hier wird ein Lexikon-Object einfach so gespeichert
-		return null;
+		try {
+			Lexicon.saveLexicon(lexicon);
+		} catch (LexiconSerializationException e) {			
+			e.printStackTrace();
+		}
+		//return null;
 		
 	}
 	

@@ -105,7 +105,7 @@ public class Corpus {
 		
 		for (int i=0; i < files.size(); i++) {
 			
-			String text = getText(files.get(i), this.ENCODING); //System.out.println(text);	
+			String text = getText(files.get(i), Corpus.ENCODING); //System.out.println(text);	
 			if (filter == true) {
 				//Alles aus dem Text entfernen - entfernt u.a Satzzeichen und Zahlen
 				text = text.replaceAll("[0-9]", "").replaceAll("\\p{Punct}", "");
