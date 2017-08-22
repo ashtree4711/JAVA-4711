@@ -88,7 +88,7 @@ public class Application {
 
 		phone.createLexicon("data", "SpinPhone.lex");
 
-		// phone.loadLexicon("SpinPhone.lex");
+		phone.loadLexicon("SpinPhone.lex");
 
 		// phone.typeAsNumbers("h");
 		// phone.typeAsNumbers("ha");
@@ -101,8 +101,8 @@ public class Application {
 		// phone.typeAsNumbers("vor");
 
 		// phone.displayAlternative();
-		// phone.learn("Informationsverarbeitung");
-		// phone.typeAsNumbers("Informationsverarbeitung");
+		phone.learn("Informationsverarbeitung");
+		phone.typeAsNumbers("Informationsverarbeitung");
 	}
 
 }

@@ -2,6 +2,9 @@ package t12.tests;
 
 import java.io.File;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import junit.framework.TestCase;
 import t12.phones.console.ConsolePhone;
 import t12.spinphone.T12Interpreter;
@@ -50,12 +53,14 @@ public class PhoneTests extends TestCase {
 	 * T12Interpreter testen können, sollten Sie hier eine Instanz Ihrer eigenen
 	 * Klasse erzeugen lassen.
 	 */
+	@Before
 	public void setUp() {
 		phone = new ConsolePhone();
 		// Hier den eigenen T12Interpreter zuweisen:
 		interpreter = new TMT12Interpreter();
 		phone.connectToT12(interpreter);
 		System.out.println("ConsolePhone und Interpreter verbunden.");
+		phone.createLexicon("data", "SpinPhone.lex");
 		phone.loadLexicon("SpinPhone.lex");
 	}
 
@@ -66,12 +71,13 @@ public class PhoneTests extends TestCase {
 	 * Der Test schlägt fehl, wenn nach dem Aufruf keine Lexikondatei namens
 	 * "SpinPhone.lex" existiert, oder wenn die erzeugte Datei 0 Bytes groß ist.
 	 */
+	@Test
 	public void testCreateLexicon() {
 		File lexFile = new File("SpinPhone.lex");
 		if (lexFile.exists()) {
 			lexFile.delete();
 		}
-		phone.createLexicon("files", "SpinPhone.lex");
+		phone.createLexicon("data", "SpinPhone.lex");
 		super.assertTrue(lexFile.exists());
 		super.assertTrue(lexFile.length() > 0);
 	}
@@ -80,6 +86,7 @@ public class PhoneTests extends TestCase {
 	 * Test der Methode ConsolePhone.loadLexicon(). Es wird versucht, ein
 	 * Lexikon aus der Datei "SpinPhone.lex" zu laden.
 	 */
+	@Test
 	public void testLoadLexicon() {
 		phone.loadLexicon("SpinPhone.lex");
 		super.assertTrue(new File("SpinPhone.lex").exists());
@@ -93,6 +100,7 @@ public class PhoneTests extends TestCase {
 	 * null sein 2.) Die Alternative muss sich von der ersten Eingabe
 	 * unterscheiden.
 	 */
+	@Test
 	public void testDisplayAlternative() {
 		String word = phone.typeAsNumbers("uns");
 		super.assertNotNull(word);
@@ -111,6 +119,7 @@ public class PhoneTests extends TestCase {
 	 * "informationsverarbeitung" ein String zurückgegeben wird, der 1.) nicht
 	 * null ist und 2.) "informationsverarbeitung" lautet.
 	 */
+	@Test
 	public void testLearn() {
 		String word = phone.typeAsNumbers("informationsverarbeitung");
 		super.assertNull(word);

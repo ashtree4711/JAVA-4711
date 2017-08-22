@@ -39,7 +39,7 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		//Lexicon lexicon = new Lexicon();
 		//index.size() aus Testgründen auf 20000 geändert
-		for (int i = 0; i < index.size(); i++) {
+		for (int i = 0; i < 20000; i++) {
 			WordObject word = new WordObject(index.get(i));
 			boolean found = false;
 			if (i==0) {
@@ -50,6 +50,8 @@ public class TMT12Interpreter implements T12Interpreter {
 					if(index.get(i).equals(lexicon.get(j).getWord())) {
 						lexicon.get(j).raiseFrequency();
 						found = true;
+						
+						
 						//System.out.println("Gotcha!"+lexicon.get(j).getWord()+"|"+lexicon.get(j).getFrequency());
 					}	
 				}
@@ -107,7 +109,7 @@ public class TMT12Interpreter implements T12Interpreter {
 				System.out.println(lexicon.get(i).getWord()+" | "+lexicon.get(i).getKey()+" | "+lexicon.get(i).getFrequency());
 			}
 		}
-		System.out.println("Wörter mit Häufigkeit von mindesens 2: "+counter);
+		System.out.println("Wortobjekte mit Häufigkeit von mindesens 2: "+counter);
 		
 		saveLexicon(lexicon);
 		
