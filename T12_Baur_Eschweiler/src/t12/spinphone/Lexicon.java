@@ -30,9 +30,9 @@ public class Lexicon extends ArrayList<WordObject> implements Serializable{
 	 * @param lexicon
 	 * @throws LexiconSerializationException
 	 */
-	public static void saveLexicon(Lexicon lexicon) throws LexiconSerializationException {
+	public static void saveLexicon(Lexicon lexicon, String lexFileDest) throws LexiconSerializationException {
 		try {
-			FileOutputStream fos = new FileOutputStream("SpinPhone.lex");
+			FileOutputStream fos = new FileOutputStream(lexFileDest);
 			BufferedOutputStream bos = new BufferedOutputStream(fos);
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
 			oos.writeObject(lexicon);

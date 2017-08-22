@@ -111,7 +111,11 @@ public class TMT12Interpreter implements T12Interpreter {
 		}
 		System.out.println("Wortobjekte mit Häufigkeit von mindesens 2: "+counter);
 		
-		saveLexicon(lexicon);
+		try {
+			Lexicon.saveLexicon(lexicon, "SpinPhone.lex");
+		} catch (LexiconSerializationException e) {
+			e.printStackTrace();
+		}
 		
 		
 	}
@@ -133,11 +137,11 @@ public class TMT12Interpreter implements T12Interpreter {
 	}
 	
 	// Mock-Funktion
-	public void saveLexicon(Lexicon lexicon) {
+	public void saveLexicon(Lexicon lexicon, String lexFilePath) {
 		
 		//hier wird ein Lexikon-Object einfach so gespeichert
 		try {
-			Lexicon.saveLexicon(lexicon);
+			Lexicon.saveLexicon(lexicon, lexFilePath);
 		} catch (LexiconSerializationException e) {			
 			e.printStackTrace();
 		}
