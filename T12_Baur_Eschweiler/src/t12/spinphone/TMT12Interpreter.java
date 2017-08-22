@@ -154,10 +154,34 @@ public class TMT12Interpreter implements T12Interpreter {
 
 	@Override
 	public void learn(String newWord) {
-		// TODO Auto-generated method stub
-		// 1. Word-String in bestehendes Lexikon hinzufügen
-		// 2. Lexikon speichern
-		//saveLexicon()
+		WordObject word = new WordObject(newWord);
+		
+		
+		try {
+			Lexicon.loadLexicon().add(word);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			lexicon.saveLexicon(lexicon);
+		} catch (LexiconSerializationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*
+		 * TODO 
+		 * 1. lege ein neues WordObjekt mit newWord an.... CHECK!
+		 * 2. lade die SpinPhone.lex
+		 * 3. füge neues Wortobjekt dem Lexikon hinzu!
+		 * 4. speicher in SpinPhone.lex
+		 */
+		
+		
+		
 		
 	}
 
