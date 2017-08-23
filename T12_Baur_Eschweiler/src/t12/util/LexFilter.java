@@ -22,22 +22,21 @@ public class LexFilter {
 	 */
 	
 	public Lexicon filtering(Lexicon currentLex, int charPos, int button) {
-		System.out.println("BeforeFiltering: "+currentLex.size()+ " Lexicon voll!");
 		Lexicon filteredLex = new Lexicon();
 		
 		IntToChar itc = new IntToChar();
 		char charButton=itc.intToChar(button);
-		System.out.println("Charbutton: "+charButton);
+		
 		for (int i = 0; i < currentLex.size(); i++) {
 			if (currentLex.get(i).getWord().length()>charPos) {
 			if (currentLex.get(i).getKey().charAt(charPos)==charButton) {
 				filteredLex.add(currentLex.get(i));
-				System.out.println(i+": "+currentLex.get(i).getWord());
+				System.out.println("Rank: " +(i+1)+" | "+currentLex.get(i).getWord()+" | "+currentLex.get(i).getFrequency());
 			}
 			}
 		}
 		FrequencyComparator fc = new FrequencyComparator();
-		System.out.println("AfterFiltering: "+filteredLex.size());
+		System.out.println("Zahl der mögl. Wörter: "+filteredLex.size());
 		filteredLex.sort(fc.reversed());
 		
 		return filteredLex;

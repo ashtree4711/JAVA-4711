@@ -53,7 +53,7 @@ public class PhoneTests extends TestCase {
 	 * T12Interpreter testen können, sollten Sie hier eine Instanz Ihrer eigenen
 	 * Klasse erzeugen lassen.
 	 */
-	@Before
+	
 	public void setUp() {
 		phone = new ConsolePhone();
 		// Hier den eigenen T12Interpreter zuweisen:

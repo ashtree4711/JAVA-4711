@@ -108,7 +108,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 						found = true;
 						
 						
-						//System.out.println("Gotcha!"+lexicon.get(j).getWord()+"|"+lexicon.get(j).getFrequency());
+						
 					}	
 				}
 				if (found == false)
@@ -141,31 +141,8 @@ System.out.println("LexAll: "+this.lexicon.size());
 		lexicon.sort(fc);
 		
 		
-		for (int j = 0; j < lexicon.size(); j++) {
-			//System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
-			
-		}
-		System.out.println("Lexikongröße: "+lexicon.size()+" Wörter");
 		
-		//Test-Abfrage für Filterung
-		
-		/*
-		for (int j = 0; j < 1000; j++) {
-			if(lexicon.get(j).getKey().charAt(0) =='7') {
-				System.out.println(lexicon.get(j).getWord()+" | "+lexicon.get(j).getKey()+" | "+lexicon.get(j).getFrequency());
-			}
-			
-			
-		}
-		*/
-		int counter=0;
-		for (int i = 0; i < lexicon.size(); i++) {
-			if (lexicon.get(i).getFrequency()>1) {
-				counter++;
-				System.out.println(lexicon.get(i).getWord()+" | "+lexicon.get(i).getKey()+" | "+lexicon.get(i).getFrequency());
-			}
-		}
-		System.out.println("Wortobjekte mit Häufigkeit von mindesens 2: "+counter);
+		System.out.println("Lexikongröße beträgt "+lexicon.size()+" Wörter");
 		
 		try {
 			Lexicon.saveLexicon(lexicon, "SpinPhone.lex");
@@ -182,7 +159,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 		System.out.println(lexFilePath);
 		if (! lexFilePath.isEmpty()) {
 			try {
-				lexicon.loadLexicon();
+				this.currentLexicon=lexicon.loadLexicon();
 			} catch (ClassNotFoundException e) {				
 				e.printStackTrace();
 			} catch (IOException e) {				
