@@ -60,6 +60,7 @@ public class Lexicon extends ArrayList<WordObject> implements Serializable{
 		ObjectInputStream ois = new ObjectInputStream(bis);
 		Lexicon lex = (Lexicon) ois.readObject();
 		ois.close();
+		System.out.println("Das Lexikon wurde geladen: "+lex.size()+" Wörter");
 				
 		return lex;
 		

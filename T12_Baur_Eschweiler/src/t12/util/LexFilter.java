@@ -44,28 +44,63 @@ public class LexFilter {
 		
 	}
 	
-	public String getMostFrequencyWord(Lexicon currentLex, int characterSize) {
+	public String getMostFrequencyWord(Lexicon currentLex, int characterSize, String currentWord) {
 		
 		
 		System.out.println(currentLex.size()); //derzeit 0! Warum?
 		Lexicon rankedLex = new Lexicon();
-		for (int i = 0; i < currentLex.size(); i++) {
-			if (currentLex.get(i).getWord().length()==characterSize+1) {
-				rankedLex.add(currentLex.get(i));
-			}
-		}
-		if(rankedLex.size()==0)
-		{
+		if(currentLex.size()!=0) {
 			for (int i = 0; i < currentLex.size(); i++) {
-				
+				if (currentLex.get(i).getWord().length()==characterSize+1) {
 					rankedLex.add(currentLex.get(i));
-			
+				}
+			}
+			if(rankedLex.size()==0)
+			{
+				for (int i = 0; i < currentLex.size(); i++) {
+					
+						rankedLex.add(currentLex.get(i));
+				
+			}
+			}
+			FrequencyComparator fc = new FrequencyComparator();
+			rankedLex.sort(fc.reversed());
+			return currentWord = rankedLex.get(0).getWord();
 		}
+		else {
+			return currentWord;
 		}
-		FrequencyComparator fc = new FrequencyComparator();
-		rankedLex.sort(fc.reversed());
-		String mostFrequencyWord = rankedLex.get(0).getWord();
 		
-		return mostFrequencyWord;
+		
+		
+		
+		
+	}
+public String getAlternativeWord(Lexicon currentLex, int characterSize, String currentWord, int alternativeCounter) {
+		
+		
+		System.out.println(currentLex.size()); //derzeit 0! Warum?
+		Lexicon rankedLex = new Lexicon();
+		if(currentLex.size()!=0&&currentLex.size()>alternativeCounter) {
+			for (int i = 0; i < currentLex.size(); i++) {
+				if (currentLex.get(i).getWord().length()==characterSize) {
+					rankedLex.add(currentLex.get(i));
+				}
+			}
+			FrequencyComparator fc = new FrequencyComparator();
+			rankedLex.sort(fc.reversed());
+			if (rankedLex.size()>alternativeCounter) {
+				return currentWord = rankedLex.get(alternativeCounter).getWord();
+			}
+			return currentWord;
+		}
+		else {
+			return currentWord;
+		}
+		
+		
+		
+		
+		
 	}
 }

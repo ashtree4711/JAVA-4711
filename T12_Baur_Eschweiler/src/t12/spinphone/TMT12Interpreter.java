@@ -21,9 +21,11 @@ public class TMT12Interpreter implements T12Interpreter {
 	private String currentWord;
 	private Lexicon currentLexicon;
 	private int positionCounter;
+	private int alternativeCounter;
 
 	@Override
 	public String buttonPressed(int number) {
+		this.alternativeCounter=0; //siehe getAlternative()
 		if (this.positionCounter==0) {
 			LexFilter lf = new LexFilter();
 			try {
@@ -40,7 +42,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			this.currentLexicon=lf.filtering(this.currentLexicon, this.positionCounter, number);
 			lexiconList.add(this.currentLexicon); //4. add currentLexicon zu lexiconList
 			System.out.println("this.current: "+this.currentLexicon.size());
-			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter);
+			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
 			
 			
 		}
@@ -51,7 +53,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 			this.currentLexicon=lf.filtering(this.currentLexicon, positionCounter, number); // 2. hole gesamtes Lexicon (this.lexicon) 3. gib Lexicon in Filter (lexicon, position, buttonINT) --> RETURN FilteredLexicon
 			lexiconList.add(this.currentLexicon);
 			System.out.println("this.current: "+this.currentLexicon.size());
-			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter);
+			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
 			}
 			else {
 				System.out.println("Keine Weiteren Einträge vorhanden");
@@ -180,7 +182,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 		System.out.println(lexFilePath);
 		if (! lexFilePath.isEmpty()) {
 			try {
-				Lexicon.loadLexicon();
+				lexicon.loadLexicon();
 			} catch (ClassNotFoundException e) {				
 				e.printStackTrace();
 			} catch (IOException e) {				
@@ -203,15 +205,21 @@ System.out.println("LexAll: "+this.lexicon.size());
 		
 	}
 	
-	
+	/**
+	 * Mit der getAlternative() wird die LexFilter-Methode getAlternativeWord() übergeben. Gleichzeitig zählt ein @param den AlternativeCounter hoch, der bei jedem
+	 * anderen Button wieder auf 0 gestellt werden soll.
+	 */
 	@Override
 	public String getAlternative() {
-		// TODO Auto-generated method stub
-		return null;
+		this.alternativeCounter++;
+		LexFilter lf = new LexFilter();
+		this.currentWord=lf.getAlternativeWord(this.currentLexicon, this.positionCounter, this.currentWord, this.alternativeCounter);
+		return this.currentWord;
 	}
 
 	@Override
 	public void learn(String newWord) {
+		this.alternativeCounter=0; //siehe getAlternative()
 		WordObject word = new WordObject(newWord);
 		
 		
@@ -245,12 +253,14 @@ System.out.println("LexAll: "+this.lexicon.size());
 
 	@Override
 	public void asteriskButtonPressed() {
+		this.alternativeCounter=0; //siehe getAlternative()
 		// TODO *-Button = Zahlenmodus
 		
 	}
 
 	@Override
 	public void numberSignButtonPressed() {
+		this.alternativeCounter=0; //siehe getAlternative()
 		// TODO #-Button = Groß- und Kleinschreibung
 		
 		
@@ -258,12 +268,13 @@ System.out.println("LexAll: "+this.lexicon.size());
 
 	@Override
 	public String delButtonPressed() {
+		this.alternativeCounter=0; //siehe getAlternative()
 		
 		if(this.lexiconList.size()<=1) {
 			System.out.println("DeleteButton on no or one char");
 			this.positionCounter=0; 
 			this.currentWord=null;
-			this.currentLexicon.clear();
+			this.currentLexicon=lexicon;
 			this.lexiconList.clear();
 		}
 	
@@ -273,7 +284,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 			this.positionCounter--;
 			this.currentLexicon = this.lexiconList.get(this.lexiconList.size()-2);
 			LexFilter lf = new LexFilter();
-			this.currentWord = lf.getMostFrequencyWord(this.currentLexicon, this.lexiconList.size()-2);
+			this.currentWord = lf.getMostFrequencyWord(this.currentLexicon, this.lexiconList.size()-2, this.currentWord);
 			this.lexiconList.remove(lexiconList.size()-1);
 			
 		}
@@ -283,9 +294,10 @@ System.out.println("LexAll: "+this.lexicon.size());
 
 	@Override
 	public void wordCompleted() {
+		this.alternativeCounter=0; //siehe getAlternative()
 		this.positionCounter=0; 
 		this.currentWord=null;
-		this.currentLexicon.clear();
+		this.currentLexicon = this.lexicon;
 		this.lexiconList.clear();
 		//ist ein Wort komplettiert, kommt ein neues Wort, die Position wird auf 0 gestellt
 		// TODO Auto-generated method stub
