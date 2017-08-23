@@ -35,7 +35,7 @@ import javax.swing.event.ChangeListener;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 
-import t12.spinphone.T12Interpreter;
+import t12.spinphone.TMT12Interpreter;
 import t12.util.KeyConverter;
 
 /**
@@ -56,7 +56,7 @@ public class SpinPhone extends JFrame {
 	/**
 	 * @see t12.phones.gui.SpinPhone#connectToT12(T12Interpreter)
 	 */
-	private T12Interpreter interpreter;
+	private TMT12Interpreter interpreter;
 	private String oldText = ""; // Enthält den bisher eingegebenen Text ohne
 									// das aktuelle Wort
 	private String currentWord = ""; // Enthält das aktuelle Wort
@@ -99,7 +99,7 @@ public class SpinPhone extends JFrame {
 	 * @param interpreter
 	 *            eine T12Interpreter-Implementation.
 	 */
-	public void connectToT12(T12Interpreter interpreter) {
+	public void connectToT12(TMT12Interpreter interpreter) {
 		this.interpreter = interpreter;
 		if (Boolean.parseBoolean(props.getProperty("autoLoadLex", "false"))) {
 			interpreter.loadLexicon(props.getProperty("lexiconFile"));
@@ -133,7 +133,7 @@ public class SpinPhone extends JFrame {
 	private void initComponents() {
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle("SpinPhone\u2122 2015");
+		setTitle("SpinPhone\u2122 2017");
 		setName("phone");
 
 		initDisplay();
@@ -292,7 +292,6 @@ public class SpinPhone extends JFrame {
 		}
 		return buttonPanel;
 	}
-
 	private JPanel initControlsPanel() {
 		JPanel controls = new JPanel();
 		JButton del = new JButton();
@@ -365,7 +364,16 @@ public class SpinPhone extends JFrame {
 						.add(buttonPanel, GroupLayout.DEFAULT_SIZE, 200,
 								Short.MAX_VALUE).addContainerGap()));
 	}
-
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * The Golden One
+	 */
 	private JButton createNumberButton(final int i) {
 		final JButton button = new JButton(
 				props.getProperty("button_text_" + i));
@@ -374,9 +382,9 @@ public class SpinPhone extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				if (i == 0) {
-					// oldText += currentWord + " ";
-					// display.setText(oldText);
-					// currentWord = "";
+					oldText += currentWord + " ";
+					display.setText(oldText);
+					currentWord = "";
 					interpreter.wordCompleted();
 				} else if (i == 10) {
 					interpreter.asteriskButtonPressed();
