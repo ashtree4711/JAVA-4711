@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.text.BreakIterator;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Corpus {
 	
@@ -122,7 +124,13 @@ public class Corpus {
 			int end = iterator.next();
 			
 			while (end != BreakIterator.DONE) {
+				//Text in einzelne Wörter zerteilen und in Kleinbuchstaben umwandeln
 				String subStringFromText = text.substring(start, end).toLowerCase(Locale.GERMAN);
+				
+				//Alle Wörter, die drei aufeinander folgende, gleiche Zeichen enthalten, sollen hier vorbehandelt werden
+				Pattern p = Pattern.compile("(.)(\\1{1,2})\\1*");
+		        Matcher m = p.matcher(subStringFromText);
+		        String s2 = m.replaceAll("$1$2");
 				
 				if (! subStringFromText.matches("\\s+")) {
 					
