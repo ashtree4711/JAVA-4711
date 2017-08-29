@@ -151,7 +151,7 @@ public class ConsolePhone {
 		if(interpreter == null) {
 			throw new NoInterpreterException();
 		}
-		System.out.println("*****");
+		System.out.println("*******");
 		System.out.println("ConsolePhone: Suche nach Alternative");
 		String alternative = interpreter.getAlternative();
 		System.out.println("ConsolePhone: Alternative: " + alternative);

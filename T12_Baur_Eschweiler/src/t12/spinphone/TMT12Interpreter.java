@@ -26,24 +26,18 @@ public class TMT12Interpreter implements T12Interpreter {
 
 	@Override
 	public String buttonPressed(int number) {
+		System.out.println("Überprüfe aktuelle Lexikongröße: "+this.lexicon.size()+" Wörter");
 		this.lastNumber=number;
 		this.alternativeCounter=0; //siehe getAlternative()
 		if (this.positionCounter==0) {
 			LexFilter lf = new LexFilter();
-			try {
-				this.currentLexicon=lexicon.loadLexicon();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.currentLexicon=this.lexicon;
+			
 			this.lexiconList = new LexiconList();
-			System.out.println("erstes currentLex: "+this.currentLexicon.size());
+			
 			this.currentLexicon=lf.filtering(this.currentLexicon, this.positionCounter, number);
 			lexiconList.add(this.currentLexicon); //4. add currentLexicon zu lexiconList
-			System.out.println("this.current: "+this.currentLexicon.size());
+			
 			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
 			
 			
@@ -161,7 +155,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 		System.out.println(lexFilePath);
 		if (!lexFilePath.isEmpty()) {
 			try {
-				Lexicon.loadLexicon();
+				this.lexicon=Lexicon.loadLexicon();
 			} catch (ClassNotFoundException e) {				
 				e.printStackTrace();
 			} catch (IOException e) {				
@@ -259,7 +253,6 @@ System.out.println("LexAll: "+this.lexicon.size());
 		this.alternativeCounter=0; //siehe getAlternative()
 		this.positionCounter=0; 
 		this.currentWord=null;
-		this.currentLexicon = this.lexicon;
 		this.lexiconList.clear();
 		//ist ein Wort komplettiert, kommt ein neues Wort, die Position wird auf 0 gestellt
 		// TODO Auto-generated method stub

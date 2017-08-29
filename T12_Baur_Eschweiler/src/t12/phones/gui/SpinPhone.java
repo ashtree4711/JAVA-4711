@@ -558,7 +558,7 @@ public class SpinPhone extends JFrame {
 							"Das Lexikon enthält dieses Wort nicht. Bitte fügen Sie es hinzu");
 		}
 		if (newWord != null) { // warum??? er lernt egal was man eimgibt immer den aktuellen Stand --> BULLSHIT!
-			interpreter.learn(newWord);
+			//interpreter.learn(newWord);
 			this.currentWord = newWord;
 			display.setText(oldText + newWord);
 		} else {
