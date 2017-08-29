@@ -390,7 +390,10 @@ public class SpinPhone extends JFrame {
 					interpreter.asteriskButtonPressed();
 				} else if (i == 11) {
 					interpreter.numberSignButtonPressed();
-				} else {
+					
+					
+				}
+				else {
 					setCurrentWord(interpreter.buttonPressed(i));
 				}
 			}
@@ -554,7 +557,7 @@ public class SpinPhone extends JFrame {
 					.showInputDialog(this,
 							"Das Lexikon enthält dieses Wort nicht. Bitte fügen Sie es hinzu");
 		}
-		if (newWord != null) {
+		if (newWord != null) { // warum??? er lernt egal was man eimgibt immer den aktuellen Stand --> BULLSHIT!
 			interpreter.learn(newWord);
 			this.currentWord = newWord;
 			display.setText(oldText + newWord);

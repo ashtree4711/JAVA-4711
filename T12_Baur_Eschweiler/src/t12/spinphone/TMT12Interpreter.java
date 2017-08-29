@@ -205,6 +205,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 		this.lexicon.add(word);
 		saveLexicon(lexicon, "SpinPhone.lex");
 		System.out.println(this.lexicon.size());
+		System.out.println("learn()");
 		
 		
 		
