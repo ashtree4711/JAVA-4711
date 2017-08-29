@@ -129,9 +129,9 @@ System.out.println("LexAll: "+this.lexicon.size());
 			
 		}
 		
-		WordComparator wc = new WordComparator();
+		
 		FrequencyComparator fc = new FrequencyComparator();
-		KeyComparator kc = new KeyComparator();
+		
 		
 		System.out.println("Sorting...");
 		lexicon.sort(fc);
@@ -184,9 +184,12 @@ System.out.println("LexAll: "+this.lexicon.size());
 	 */
 	@Override
 	public String getAlternative() {
+		System.out.println("GA.LEXIKON: "+this.lexicon.size()+"GA.LASTNUMBER: "+this.lastNumber+"GA.currentWord: "+this.currentWord);
 		this.alternativeCounter++;
 		LexFilter lf = new LexFilter();
+		System.out.println("getAlternative Word1: "+this.currentWord);
 		this.currentWord=lf.getAlternativeWord(this.currentLexicon, this.positionCounter, this.currentWord, this.alternativeCounter);
+		System.out.println("getAlternative Word2: "+this.currentWord);
 		return this.currentWord;
 	}
 

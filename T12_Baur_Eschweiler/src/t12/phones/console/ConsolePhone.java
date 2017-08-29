@@ -135,7 +135,7 @@ public class ConsolePhone {
 				System.out.println("ConsolePhone: " + current);
 			}
 		}
-		interpreter.wordCompleted();
+		//interpreter.wordCompleted(); BEGRÜNDUNG liefern!
 		return current;
 	}
 
@@ -153,7 +153,7 @@ public class ConsolePhone {
 		}
 		System.out.println("*******");
 		System.out.println("ConsolePhone: Suche nach Alternative");
-		String alternative = interpreter.getAlternative();
+		String alternative = interpreter.getAlternative(); //null!!! bei Test
 		System.out.println("ConsolePhone: Alternative: " + alternative);
 		return alternative;
 	}

@@ -92,7 +92,7 @@ public class LexFilter {
 public String getAlternativeWord(Lexicon currentLex, int characterSize, String currentWord, int alternativeCounter) {
 		
 		
-		System.out.println(currentLex.size()); //derzeit 0! Warum?
+		
 		Lexicon rankedLex = new Lexicon();
 		if(currentLex.size()!=0&&currentLex.size()>alternativeCounter) {
 			for (int i = 0; i < currentLex.size(); i++) {
