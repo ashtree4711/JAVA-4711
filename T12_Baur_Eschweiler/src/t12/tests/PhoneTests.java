@@ -105,7 +105,7 @@ public class PhoneTests extends TestCase {
 	 */
 	@Test
 	public void testDisplayAlternative() {
-		String word = phone.typeAsNumbers("uns");
+		String word = phone.typeAsNumbers("vor");
 		super.assertNotNull(word);
 		String word2 = phone.displayAlternative();
 		super.assertNotNull(word2);
