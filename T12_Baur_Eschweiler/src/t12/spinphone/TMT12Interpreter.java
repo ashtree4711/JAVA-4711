@@ -20,11 +20,13 @@ public class TMT12Interpreter implements T12Interpreter {
 	private LexiconList lexiconList;
 	private String currentWord;
 	private Lexicon currentLexicon;
+	private int lastNumber;
 	private int positionCounter;
 	private int alternativeCounter;
 
 	@Override
 	public String buttonPressed(int number) {
+		this.lastNumber=number;
 		this.alternativeCounter=0; //siehe getAlternative()
 		if (this.positionCounter==0) {
 			LexFilter lf = new LexFilter();
@@ -42,7 +44,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			this.currentLexicon=lf.filtering(this.currentLexicon, this.positionCounter, number);
 			lexiconList.add(this.currentLexicon); //4. add currentLexicon zu lexiconList
 			System.out.println("this.current: "+this.currentLexicon.size());
-			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
+			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
 			
 			
 		}
@@ -53,11 +55,11 @@ System.out.println("LexAll: "+this.lexicon.size());
 			this.currentLexicon=lf.filtering(this.currentLexicon, positionCounter, number); // 2. hole gesamtes Lexicon (this.lexicon) 3. gib Lexicon in Filter (lexicon, position, buttonINT) --> RETURN FilteredLexicon
 			lexiconList.add(this.currentLexicon);
 			System.out.println("this.current: "+this.currentLexicon.size());
-			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
+			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
 			}
 			else {
 				System.out.println("Keine Weiteren Einträge vorhanden");
-				wordCompleted();
+				//wordCompleted();
 			}
 			
 		}
@@ -157,16 +159,16 @@ System.out.println("LexAll: "+this.lexicon.size());
 	public void loadLexicon(String lexFilePath) {
 		
 		System.out.println(lexFilePath);
-		if (! lexFilePath.isEmpty()) {
+		if (!lexFilePath.isEmpty()) {
 			try {
-				this.currentLexicon=lexicon.loadLexicon();
+				Lexicon.loadLexicon();
 			} catch (ClassNotFoundException e) {				
 				e.printStackTrace();
 			} catch (IOException e) {				
 				e.printStackTrace();
 			}
 		}
-			
+		
 	}
 	
 	// Mock-Funktion
@@ -196,32 +198,14 @@ System.out.println("LexAll: "+this.lexicon.size());
 
 	@Override
 	public void learn(String newWord) {
+		
 		this.alternativeCounter=0; //siehe getAlternative()
+		System.out.println(this.lexicon.size());
 		WordObject word = new WordObject(newWord);
+		this.lexicon.add(word);
+		saveLexicon(lexicon, "SpinPhone.lex");
+		System.out.println(this.lexicon.size());
 		
-		
-		try {
-			Lexicon.loadLexicon().add(word);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			lexicon.saveLexicon(lexicon, "SpinPhone.lex");
-		} catch (LexiconSerializationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		 * TODO 
-		 * 1. lege ein neues WordObjekt mit newWord an.... CHECK!
-		 * 2. lade die SpinPhone.lex
-		 * 3. füge neues Wortobjekt dem Lexikon hinzu!
-		 * 4. speicher in SpinPhone.lex
-		 */
 		
 		
 		
@@ -261,7 +245,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 			this.positionCounter--;
 			this.currentLexicon = this.lexiconList.get(this.lexiconList.size()-2);
 			LexFilter lf = new LexFilter();
-			this.currentWord = lf.getMostFrequencyWord(this.currentLexicon, this.lexiconList.size()-2, this.currentWord);
+			this.currentWord = lf.getMostFrequencyWord(this.currentLexicon, this.lexiconList.size()-2, this.currentWord, this.lastNumber); //Änderung
 			this.lexiconList.remove(lexiconList.size()-1);
 			
 		}

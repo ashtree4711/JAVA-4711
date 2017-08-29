@@ -81,16 +81,19 @@ public class PhoneTests extends TestCase {
 		super.assertTrue(lexFile.exists());
 		super.assertTrue(lexFile.length() > 0);
 	}
+	
 
 	/**
 	 * Test der Methode ConsolePhone.loadLexicon(). Es wird versucht, ein
 	 * Lexikon aus der Datei "SpinPhone.lex" zu laden.
 	 */
+	
 	@Test
 	public void testLoadLexicon() {
 		phone.loadLexicon("SpinPhone.lex");
 		super.assertTrue(new File("SpinPhone.lex").exists());
 	}
+	
 
 	/**
 	 * Test Methode für 't12.ConsolePhone.displayAlternative()' Zunächst wird
@@ -109,6 +112,7 @@ public class PhoneTests extends TestCase {
 		super.assertNotSame(word, word2);
 		super.assertFalse(word.equals(word2));
 	}
+	
 
 	/**
 	 * Test Methode for 't12.ConsolePhone.learn(String)' Es wird geprüft, ob das
@@ -122,7 +126,8 @@ public class PhoneTests extends TestCase {
 	@Test
 	public void testLearn() {
 		String word = phone.typeAsNumbers("informationsverarbeitung");
-		super.assertNull(word);
+		super.assertNull(word); //Fehler taucht hier auf! 
+		System.out.println("assertNull passed!!!");
 		phone.learn("informationsverarbeitung");
 		word = phone.typeAsNumbers("informationsverarbeitung");
 		super.assertNotNull(word);

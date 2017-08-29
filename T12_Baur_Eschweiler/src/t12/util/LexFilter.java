@@ -31,7 +31,7 @@ public class LexFilter {
 			if (currentLex.get(i).getWord().length()>charPos) {
 			if (currentLex.get(i).getKey().charAt(charPos)==charButton) {
 				filteredLex.add(currentLex.get(i));
-				System.out.println("Rank: " +(i+1)+" | "+currentLex.get(i).getWord()+" | "+currentLex.get(i).getFrequency());
+				//System.out.println("Rank: " +(i+1)+" | "+currentLex.get(i).getWord()+" | "+currentLex.get(i).getFrequency());
 			}
 			}
 		}
@@ -43,31 +43,45 @@ public class LexFilter {
 		
 	}
 	
-	public String getMostFrequencyWord(Lexicon currentLex, int characterSize, String currentWord) {
+	public String getMostFrequencyWord(Lexicon currentLex, int characterSize, String currentWord, int input) {
 		
-		
-		System.out.println(currentLex.size()); //derzeit 0! Warum?
+		KeyConverter kc = new KeyConverter();
+		String currentLetter=kc.convertToKey(input);
+		System.out.println("Aktuelle Lexikongröße: "+currentLex.size()); //derzeit 0! Warum?
 		Lexicon rankedLex = new Lexicon();
 		if(currentLex.size()!=0) {
 			for (int i = 0; i < currentLex.size(); i++) {
-				if (currentLex.get(i).getWord().length()==characterSize+1) {
+				if (currentLex.get(i).getWord().length()==characterSize) {
 					rankedLex.add(currentLex.get(i));
+					System.out.println("Rank: " +(i+1)+" | "+currentLex.get(i).getWord()+" | "+currentLex.get(i).getFrequency());
 				}
 			}
 			if(rankedLex.size()==0)
 			{
 				for (int i = 0; i < currentLex.size(); i++) {
+					if (currentLex.get(i).getWord().length()==characterSize+1) {
 					
 						rankedLex.add(currentLex.get(i));
+						System.out.println("Rank: " +(i+1)+" | "+currentLex.get(i).getWord()+" | "+currentLex.get(i).getFrequency());
+					}
 				
 			}
 			}
+			if(rankedLex.size()==0) {
+				currentWord=currentWord+currentLetter;
+			}
 			FrequencyComparator fc = new FrequencyComparator();
 			rankedLex.sort(fc.reversed());
-			return currentWord = rankedLex.get(0).getWord();
+			if (rankedLex.isEmpty()) {
+				return currentWord;
+				
+			}else {
+				return currentWord = rankedLex.get(0).getWord();
+			}
+			
 		}
 		else {
-			return currentWord;
+			return null;
 		}
 		
 		
