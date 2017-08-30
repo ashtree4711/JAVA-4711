@@ -26,6 +26,17 @@ public class TMT12Interpreter implements T12Interpreter {
 	private int alternativeCounter;
 	private boolean numberModus;
 
+	/**
+	 * Die Methode ist vom Interface vorgegeben und wird immer aufgerufen,
+	 * wenn die Zahlentasten in der GUI benutzt werden.
+	 * Bei jedem Aufruf werden zunächst Kontrollvariablen in der Console angezeigt.
+	 * 
+	 * this.alternativeCounter wird neu initialisiert @see getAlternative() 
+	 * 
+	 * @param this.numbermodus: Bei TRUE wird "number" an die @see typeNumber()-Methode und bei FALSE
+	 * an die @see typeWord()
+	 * @author Mark Eschweiler
+	 */
 	@Override
 	public String buttonPressed(int number) {
 		System.out.println("Überprüfe aktuelle Lexikongröße: "+this.lexicon.size()+" Wörter");
@@ -42,10 +53,29 @@ public class TMT12Interpreter implements T12Interpreter {
 		return this.currentWord;
 	}
 	/**
-	 * Die Funktion delegiert den Umgang mit Zahlen im Wortmodus. Sie wird dementsprechend aufgerufen
-	 * wenn @param this.numberModus == true
+	 * Die Funktion delegiert den Umgang mit dem Input im Wortmodus. 
+	 * Bei jedem neuen Wort ist der <code>this.positionCounter</code> auf 0 gesetzt. Die Methode 
+	 * erzeugt in diesem Fall eine neue LexFilter()-Klasse, die weitere Methoden zur Bearbeitung von 
+	 * Input und Output bereitstellt.
+	 * 
+	 * Gleichzeitig wird das Hauptlexikon <code>this.lexicon</code> initial auf das <code>this.currentlexicon</code>
+	 * kopiert. <code>this.currentLexicon</code> ist ein ständig kleiner werdendes Lexikon je größer die Eingabe wird. 
+	 * Dies geschieht unter @see LexFilter.filtering(), sodass in diesem Lexikon nur noch potenzielle Wörter entsprechend
+	 * der aktuellen Zahlenfolge und auf dieser Basis noch alle möglichen enthalten sein sollen.
+	 * 
+	 * Die <code>this.lexiconList</code> ist eine ArrayList aus Lexika, die wiederum selbst eine ArrayList sind. Sie dient
+	 * im Grunde als Backup, wenn Buchstaben gelöscht werden, muss ein gefiltertes Lexikon nicht neu generiert werden, sondern
+	 * man greift einfach auf den vorherigen Stand zurück. 
+	 * 
+	 * @see filtering(): Das aktuelle/gefilterte Lexikon, die aktuelle Position und @param number werden übergeben, um das Lexikon
+	 * zu verkleinern entsprechend des letzten Inputs und der Inputs zuvor.
+	 * @see getMostFrequencyWord(): Hier wird häufigste Wort mithilfe des gefilterten Lexikons geholt und letztendlich an die GUI über buttonPressed() zurückgeholt
+	 * 
+	 * Zum Abschluss wird noch der positionCounter um 1 erhöht, damit die LexFilter wissen, nach welcher Stelle gefiltert und
+	 * sortiert werden soll.
 	 * @param number
-	 * @return
+	 * @return String this.currentWord
+	 * @author Mark Eschweiler
 	 */
 	private String typeWord(int number) {
 		if (this.positionCounter==0) {
@@ -71,14 +101,18 @@ public class TMT12Interpreter implements T12Interpreter {
 				System.out.println("Keine Weiteren Einträge vorhanden");
 			}
 		}
-		
-		
-		
-		
 		this.positionCounter++; //immer wenn eine Zahl gedrückt wird erhält das Wort eine neue Stelle
 		return this.currentWord;
 	}
-
+	/**
+	 * Die Funktion delegiert den Umgang mit dem Input im Zahlenmodus. 
+	 * 
+	 * @param number wird zunächst in einen String umgewandelt. Ist der String des aktuellen Wortes null, 
+	 * ist es also noch kein Wort vorhanden. So wird der String des Inputs als aktuelles Wort gesetzt. Ist ein Wort bereits
+	 * vorhanden wird ganz einfach der String des Inputs an das aktuelle Wort angefügt.
+	 * @return String this.currentWord
+	 * @author Mark Eschweiler
+	 */
 	private String typeNumbers(int number) {
 		
 		String newNumber=Integer.toString(number);
@@ -88,9 +122,11 @@ public class TMT12Interpreter implements T12Interpreter {
 		else {
 			this.currentWord=this.currentWord+newNumber;
 		}
-		
 		return this.currentWord;
 	}
+	/**
+	 * @author Thomas Baur
+	 */
 
 	@Override
 	public void generateLexicon(String pathToTexts, String lexFileDestination) {
@@ -165,7 +201,10 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		
 	}
-
+	
+/**
+ * @author Thomas Baur
+ */
 	@Override
 	public void loadLexicon(String lexFilePath) {
 		
@@ -182,34 +221,46 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 	}
 	
-	// Mock-Funktion
+	/**
+	 * 
+	 * @param lexicon
+	 * @param lexFilePath
+	 * @author Thomas Baur
+	 */
 	public void saveLexicon(Lexicon lexicon, String lexFilePath) {
 		
-		//hier wird ein Lexikon-Object einfach so gespeichert
+		
 		try {
 			Lexicon.saveLexicon(lexicon, lexFilePath);
 		} catch (LexiconSerializationException e) {			
 			e.printStackTrace();
 		}
-		//return null;
-		
+				
 	}
 	
 	/**
-	 * Mit der getAlternative() wird die LexFilter-Methode getAlternativeWord() übergeben. Gleichzeitig zählt ein @param den AlternativeCounter hoch, der bei jedem
-	 * anderen Button wieder auf 0 gestellt werden soll.
+	 * Mit der getAlternative() wird die LexFilter-Methode @see getAlternativeWord() angefordert. 
+	 * Gleichzeitig zählt ein den <code>this.alternativeCounter</code> hoch, der bei jedem ButtonPressed()-Methodenaufruf wieder 
+	 * auf 0 gestellt werden soll.
+	 * @author Mark Eschweiler
 	 */
 	@Override
 	public String getAlternative() {
-		System.out.println("GA.LEXIKON: "+this.lexicon.size()+"GA.LASTNUMBER: "+this.lastNumber+"GA.currentWord: "+this.currentWord);
 		this.alternativeCounter++;
 		LexFilter lf = new LexFilter();
-		System.out.println("getAlternative Word1: "+this.currentWord);
 		this.currentWord=lf.getAlternativeWord(this.currentLexicon, this.positionCounter, this.currentWord, this.alternativeCounter);
-		System.out.println("getAlternative Word2: "+this.currentWord);
 		return this.currentWord;
 	}
 
+	/**
+	 * Die Methode dient ausschließlich dem Erlernen eines neuen Wortes und nicht der Erhöhung der Häufigkeit. Dies wird nur
+	 * in wordCompleted() realisiert.
+	 * @param newWord wird übergeben um das Wort abzuspeichern
+	 * Das zu erlernende Wort wird zunächst in einen lowerCase verwandelt. Dann wird ein neues Wort-Object mit dem
+	 * neuen Wort angelegt. Das Wort-Objekt wird dem Gesamtlexikon angefügt und sofort abgespeichert.
+	 * 
+	 * @author Mark Eschweiler
+	 */
 	@Override
 	public void learn(String newWord) {
 		
@@ -218,17 +269,14 @@ public class TMT12Interpreter implements T12Interpreter {
 		WordObject word = new WordObject(newWord);
 		this.lexicon.add(word);
 		saveLexicon(lexicon, "SpinPhone.lex");
-		System.out.println(this.lexicon.size());
-		System.out.println("learn()");
-		
-		
-		
-		
+		System.out.println("Ein neues Wort wurde erfolgreich eingetragen, die neue Lexikongröße beträgt "+this.lexicon.size()+" Wörter");
 		
 	}
 	/**
-	 * Es wird hier nur ein Schalter umgelegt, der zwischen Nummermodus und T9-Modus bestimmt. Alles weitere wird
-	 * in @see 
+	 * Es wird hier nur ein Schalter mit dem "*"-Button umgelegt, der zwischen Nummermodus und T9-Modus bestimmt. Alles weitere wird
+	 * in @see buttonPressed() behandelt
+	 * 
+	 * @author Mark Eschweiler
 	 */
 	@Override
 	public void asteriskButtonPressed() {
@@ -240,8 +288,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			this.numberModus=true;
 		}
 		System.out.println("Nummermodus: "+this.numberModus);
-		//siehe getAlternative()
-		// TODO *-Button = Zahlenmodus
+		
 		
 	}
 
@@ -252,7 +299,20 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		
 	}
-
+	
+	/**
+	 * Der Vorteil einer ArrayList aus ArrayLists erschließt insbesondere hier. Wird ein Buchstabe gelöscht, wird der
+	 * vorletzte Eintrag anstatt des letzten Eintrages der <code>this.lexiconList</code> zum <code>this.currentLexicon</code>.
+	 * Mithilfe des neuen "alten" <code>this.currentLexicon</code> wird wiederum das wahrscheinlichste Wort mit @see getMostFrequencyWord()
+	 * angezeigt. 
+	 * 
+	 * Abschließend wird das letzte Lexikon aus der ArrayList gelöscht.
+	 * 
+	 * Insofern die <code>this.lexiconList</code> kleiner oder gleich 1 ist, wird die <code>this.lexiconList</code>
+	 * zurückgesetzt und das <code>this.currentWord</code> leergelassen.
+	 * 
+	 * @author Mark Eschweiler
+	 */
 	@Override
 	public String delButtonPressed() {
 		this.alternativeCounter=0; //siehe getAlternative()
@@ -260,34 +320,43 @@ public class TMT12Interpreter implements T12Interpreter {
 		if(this.lexiconList.size()<=1) {
 			System.out.println("DeleteButton on no or one char");
 			this.positionCounter=0; 
-			this.currentWord=null;
+			this.currentWord="";
 			this.currentLexicon=lexicon;
 			this.lexiconList.clear();
 		}
-	
-		
 		else {
 			System.out.println("DeleteButton on multiple chars");
 			this.positionCounter--;
 			this.currentLexicon = this.lexiconList.get(this.lexiconList.size()-2);
 			LexFilter lf = new LexFilter();
 			this.currentWord = lf.getMostFrequencyWord(this.currentLexicon, this.lexiconList.size()-2, this.currentWord, this.lastNumber); //Änderung
-			this.lexiconList.remove(lexiconList.size()-1);
-			
+			this.lexiconList.remove(lexiconList.size()-1);	
 		}
-		 //wenn der LÖSCHEN-BUTTON gedrückt wird, muss eine Stelle abgezogen werden
 		return this.currentWord;
 	}
-
+	/**
+	 * Wird aufgerufen wenn "0" gedrückt wird. Gemäß der Anforderungen wird das geschriebene Wort versiegelt und muss
+	 * deshalb nicht mehr editierbar sein. Aus diesem Grund muss die Methode alles nur auf Anfang setzen, damit ein neues
+	 * Wort geschrieben werden kann.
+	 * 
+	 * Zusätzlich erhöht die Methode die Häufigkeit des benutzten Wortes 
+	 * @author Mark Eschweiler
+	 */
 	@Override
 	public void wordCompleted() {
-		this.alternativeCounter=0; //siehe getAlternative()
+		
+		for (int i = 0; i < this.lexicon.size(); i++) {
+			if(this.lexicon.get(i).getWord()==this.currentWord) {
+				System.out.println("Häufigkeit zuvor: "+this.lexicon.get(i).getFrequency());
+				this.lexicon.get(i).raiseFrequency();
+				System.out.println("Häufigkeit danach: "+this.lexicon.get(i).getFrequency());
+			}	
+		}
+		saveLexicon(this.lexicon, "SpinPhone.lex");
+		this.alternativeCounter=0;
 		this.positionCounter=0; 
 		this.currentWord=null;
 		this.lexiconList.clear();
-		//ist ein Wort komplettiert, kommt ein neues Wort, die Position wird auf 0 gestellt
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
