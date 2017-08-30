@@ -39,11 +39,14 @@ public class TMT12Interpreter implements T12Interpreter {
 		} else {
 			this.currentWord=typeWord(number);
 		}
-		
-		
 		return this.currentWord;
 	}
-
+	/**
+	 * Die Funktion delegiert den Umgang mit Zahlen im Wortmodus. Sie wird dementsprechend aufgerufen
+	 * wenn @param this.numberModus == true
+	 * @param number
+	 * @return
+	 */
 	private String typeWord(int number) {
 		if (this.positionCounter==0) {
 			LexFilter lf = new LexFilter();
@@ -55,8 +58,6 @@ public class TMT12Interpreter implements T12Interpreter {
 			lexiconList.add(this.currentLexicon); //4. add currentLexicon zu lexiconList
 			
 			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
-			
-			
 		}
 		else {
 			LexFilter lf = new LexFilter();
@@ -69,7 +70,6 @@ public class TMT12Interpreter implements T12Interpreter {
 			else {
 				System.out.println("Keine Weiteren Einträge vorhanden");
 			}
-			
 		}
 		
 		

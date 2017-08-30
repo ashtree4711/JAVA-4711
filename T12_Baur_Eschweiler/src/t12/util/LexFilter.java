@@ -44,7 +44,8 @@ public class LexFilter {
 	}
 	
 	public String getMostFrequencyWord(Lexicon currentLex, int characterSize, String currentWord, int input) {
-		
+		FrequencyComparator fc = new FrequencyComparator();
+		currentLex.sort(fc);
 		KeyConverter kc = new KeyConverter();
 		String currentLetter=kc.convertToKey(input);
 		System.out.println("Aktuelle Lexikongröße: "+currentLex.size()); //derzeit 0! Warum?
@@ -68,9 +69,10 @@ public class LexFilter {
 			}
 			}
 			if(rankedLex.size()==0) {
-				currentWord=currentWord+currentLetter;
+				currentWord=currentLex.get(0).getWord().substring(0, characterSize+1);
+				//currentWord=currentWord+currentLetter;
 			}
-			FrequencyComparator fc = new FrequencyComparator();
+			
 			rankedLex.sort(fc.reversed());
 			if (rankedLex.isEmpty()) {
 				return currentWord;
