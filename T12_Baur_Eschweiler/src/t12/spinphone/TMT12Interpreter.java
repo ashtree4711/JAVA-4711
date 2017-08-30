@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import t12.phones.LexiconSerializationException;
+import t12.util.IntToChar;
 import t12.util.LexFilter;
 import t12.util.comparator.FrequencyComparator;
 import t12.util.comparator.KeyComparator;
@@ -23,12 +24,27 @@ public class TMT12Interpreter implements T12Interpreter {
 	private int lastNumber;
 	private int positionCounter;
 	private int alternativeCounter;
+	private boolean numberModus;
 
 	@Override
 	public String buttonPressed(int number) {
 		System.out.println("Überprüfe aktuelle Lexikongröße: "+this.lexicon.size()+" Wörter");
+		System.out.println("Nummermodus: "+this.numberModus);
+		System.out.println("Input: "+number);
 		this.lastNumber=number;
 		this.alternativeCounter=0; //siehe getAlternative()
+		
+		if (this.numberModus==true) {
+			this.currentWord=typeNumbers(number);
+		} else {
+			this.currentWord=typeWord(number);
+		}
+		
+		
+		return this.currentWord;
+	}
+
+	private String typeWord(int number) {
 		if (this.positionCounter==0) {
 			LexFilter lf = new LexFilter();
 			this.currentLexicon=this.lexicon;
@@ -43,35 +59,36 @@ public class TMT12Interpreter implements T12Interpreter {
 			
 		}
 		else {
-LexFilter lf = new LexFilter();
-System.out.println("LexAll: "+this.lexicon.size());
+			LexFilter lf = new LexFilter();
 			if(this.currentLexicon.size()!=0) {
-			this.currentLexicon=lf.filtering(this.currentLexicon, positionCounter, number); // 2. hole gesamtes Lexicon (this.lexicon) 3. gib Lexicon in Filter (lexicon, position, buttonINT) --> RETURN FilteredLexicon
-			lexiconList.add(this.currentLexicon);
-			System.out.println("this.current: "+this.currentLexicon.size());
-			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
-			}
+				this.currentLexicon=lf.filtering(this.currentLexicon, positionCounter, number); // 2. hole gesamtes Lexicon (this.lexicon) 3. gib Lexicon in Filter (lexicon, position, buttonINT) --> RETURN FilteredLexicon
+				lexiconList.add(this.currentLexicon);
+				System.out.println("this.current: "+this.currentLexicon.size());
+				this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
+				}
 			else {
 				System.out.println("Keine Weiteren Einträge vorhanden");
-				//wordCompleted();
 			}
 			
 		}
-		System.out.println(number);
 		
-		/*
-		 * 1. erhalte Nummer, CHECK!
-		 * 2. hole gesamtes Lexicon
-		 * 3. gib Lexicon in Filter (lexicon, buttonINT, positionCounter) --> RETURN currentLexicon
-		 * 4. add currentLexicon zu lexiconList
-		 * 5. sortiere currentLexicon nach Häufigkeit
-		 * 6. gib häufigster Wort || Wort darf nur so lang sein, wieviel Zahlen eingetippt worden sind
-		 * 
-		 *
-		 * 
-		 */
+		
+		
 		
 		this.positionCounter++; //immer wenn eine Zahl gedrückt wird erhält das Wort eine neue Stelle
+		return this.currentWord;
+	}
+
+	private String typeNumbers(int number) {
+		
+		String newNumber=Integer.toString(number);
+		if(this.currentWord==null) {
+			this.currentWord=newNumber;
+		}
+		else {
+			this.currentWord=this.currentWord+newNumber;
+		}
+		
 		return this.currentWord;
 	}
 
@@ -197,7 +214,7 @@ System.out.println("LexAll: "+this.lexicon.size());
 	public void learn(String newWord) {
 		
 		this.alternativeCounter=0; //siehe getAlternative()
-		System.out.println(this.lexicon.size());
+		newWord.toLowerCase();
 		WordObject word = new WordObject(newWord);
 		this.lexicon.add(word);
 		saveLexicon(lexicon, "SpinPhone.lex");
@@ -209,10 +226,21 @@ System.out.println("LexAll: "+this.lexicon.size());
 		
 		
 	}
-
+	/**
+	 * Es wird hier nur ein Schalter umgelegt, der zwischen Nummermodus und T9-Modus bestimmt. Alles weitere wird
+	 * in @see 
+	 */
 	@Override
 	public void asteriskButtonPressed() {
-		this.alternativeCounter=0; //siehe getAlternative()
+		this.alternativeCounter=0;
+		if (this.numberModus==true) {
+			this.numberModus=false;
+		}
+		else {
+			this.numberModus=true;
+		}
+		System.out.println("Nummermodus: "+this.numberModus);
+		//siehe getAlternative()
 		// TODO *-Button = Zahlenmodus
 		
 	}
