@@ -7,7 +7,7 @@ import java.util.List;
 
 import t12.phones.LexiconSerializationException;
 import t12.util.IntToChar;
-import t12.util.LexFilter;
+import t12.util.LexiconToolbox;
 import t12.util.comparator.FrequencyComparator;
 import t12.util.comparator.KeyComparator;
 import t12.util.comparator.WordComparator;
@@ -55,12 +55,12 @@ public class TMT12Interpreter implements T12Interpreter {
 	/**
 	 * Die Funktion delegiert den Umgang mit dem Input im Wortmodus. 
 	 * Bei jedem neuen Wort ist der <code>this.positionCounter</code> auf 0 gesetzt. Die Methode 
-	 * erzeugt in diesem Fall eine neue LexFilter()-Klasse, die weitere Methoden zur Bearbeitung von 
+	 * erzeugt in diesem Fall eine neue LexiconToolbox()-Klasse, die weitere Methoden zur Bearbeitung von 
 	 * Input und Output bereitstellt.
 	 * 
 	 * Gleichzeitig wird das Hauptlexikon <code>this.lexicon</code> initial auf das <code>this.currentlexicon</code>
 	 * kopiert. <code>this.currentLexicon</code> ist ein ständig kleiner werdendes Lexikon je größer die Eingabe wird. 
-	 * Dies geschieht unter @see LexFilter.filtering(), sodass in diesem Lexikon nur noch potenzielle Wörter entsprechend
+	 * Dies geschieht unter @see LexiconToolbox.filtering(), sodass in diesem Lexikon nur noch potenzielle Wörter entsprechend
 	 * der aktuellen Zahlenfolge und auf dieser Basis noch alle möglichen enthalten sein sollen.
 	 * 
 	 * Die <code>this.lexiconList</code> ist eine ArrayList aus Lexika, die wiederum selbst eine ArrayList sind. Sie dient
@@ -71,7 +71,7 @@ public class TMT12Interpreter implements T12Interpreter {
 	 * zu verkleinern entsprechend des letzten Inputs und der Inputs zuvor.
 	 * @see getMostFrequencyWord(): Hier wird häufigste Wort mithilfe des gefilterten Lexikons geholt und letztendlich an die GUI über buttonPressed() zurückgeholt
 	 * 
-	 * Zum Abschluss wird noch der positionCounter um 1 erhöht, damit die LexFilter wissen, nach welcher Stelle gefiltert und
+	 * Zum Abschluss wird noch der positionCounter um 1 erhöht, damit die LexiconToolbox wissen, nach welcher Stelle gefiltert und
 	 * sortiert werden soll.
 	 * @param number
 	 * @return String this.currentWord
@@ -79,7 +79,7 @@ public class TMT12Interpreter implements T12Interpreter {
 	 */
 	private String typeWord(int number) {
 		if (this.positionCounter==0) {
-			LexFilter lf = new LexFilter();
+			LexiconToolbox lf = new LexiconToolbox();
 			this.currentLexicon=this.lexicon;
 			
 			this.lexiconList = new LexiconList();
@@ -87,15 +87,15 @@ public class TMT12Interpreter implements T12Interpreter {
 			this.currentLexicon=lf.filtering(this.currentLexicon, this.positionCounter, number);
 			lexiconList.add(this.currentLexicon); //4. add currentLexicon zu lexiconList
 			
-			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
+			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
 		}
 		else {
-			LexFilter lf = new LexFilter();
+			LexiconToolbox lf = new LexiconToolbox();
 			if(this.currentLexicon.size()!=0) {
 				this.currentLexicon=lf.filtering(this.currentLexicon, positionCounter, number); // 2. hole gesamtes Lexicon (this.lexicon) 3. gib Lexicon in Filter (lexicon, position, buttonINT) --> RETURN FilteredLexicon
 				lexiconList.add(this.currentLexicon);
 				System.out.println("this.current: "+this.currentLexicon.size());
-				this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord, number);
+				this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
 				}
 			else {
 				System.out.println("Keine Weiteren Einträge vorhanden");
@@ -239,7 +239,7 @@ public class TMT12Interpreter implements T12Interpreter {
 	}
 	
 	/**
-	 * Mit der getAlternative() wird die LexFilter-Methode @see getAlternativeWord() angefordert. 
+	 * Mit der getAlternative() wird die LexiconToolbox-Methode @see getAlternativeWord() angefordert. 
 	 * Gleichzeitig zählt ein den <code>this.alternativeCounter</code> hoch, der bei jedem ButtonPressed()-Methodenaufruf wieder 
 	 * auf 0 gestellt werden soll.
 	 * @author Mark Eschweiler
@@ -247,7 +247,7 @@ public class TMT12Interpreter implements T12Interpreter {
 	@Override
 	public String getAlternative() {
 		this.alternativeCounter++;
-		LexFilter lf = new LexFilter();
+		LexiconToolbox lf = new LexiconToolbox();
 		this.currentWord=lf.getAlternativeWord(this.currentLexicon, this.positionCounter, this.currentWord, this.alternativeCounter);
 		return this.currentWord;
 	}
@@ -328,8 +328,8 @@ public class TMT12Interpreter implements T12Interpreter {
 			System.out.println("DeleteButton on multiple chars");
 			this.positionCounter--;
 			this.currentLexicon = this.lexiconList.get(this.lexiconList.size()-2);
-			LexFilter lf = new LexFilter();
-			this.currentWord = lf.getMostFrequencyWord(this.currentLexicon, this.lexiconList.size()-2, this.currentWord, this.lastNumber); //Änderung
+			LexiconToolbox lf = new LexiconToolbox();
+			this.currentWord = lf.getMostFrequencyWord(this.currentLexicon, this.lexiconList.size()-2, this.currentWord); 
 			this.lexiconList.remove(lexiconList.size()-1);	
 		}
 		return this.currentWord;

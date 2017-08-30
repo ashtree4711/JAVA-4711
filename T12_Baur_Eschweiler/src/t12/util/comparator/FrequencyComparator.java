@@ -6,7 +6,8 @@ import t12.spinphone.WordObject;
 
 public class FrequencyComparator implements Comparator<WordObject>{
 	/**
-	 * Der FrequencyComparator sortiert die Wordobjekte in den Arraylisten des Lexikons nach der Häufigkeit.
+	 * Der FrequencyComparator sortiert die Wordobjekte in den Arraylisten
+	 * des Lexikons nach der Häufigkeit.
 	 * @author Mark Eschweiler
 	 */
 	@Override

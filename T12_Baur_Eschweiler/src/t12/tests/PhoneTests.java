@@ -45,7 +45,7 @@ import t12.spinphone.TMT12Interpreter;
 public class PhoneTests extends TestCase {
 
 	private ConsolePhone phone;
-	private T12Interpreter interpreter;
+	private TMT12Interpreter interpreter;
 
 	/**
 	 * In der Setup-Methode wird ein neues ConsolePhone erzeugt und mit einem
@@ -139,6 +139,21 @@ public class PhoneTests extends TestCase {
 		word = phone.typeAsNumbers("informationsverarbeitung");
 		super.assertNotNull(word);
 		super.assertEquals(word, "informationsverarbeitung");
+	}
+	/**
+	 * Test für die Methode t12.spinPhone.TMT12Interpreter.typerNumbers() und 
+	 * t12.spinPhone.TMT12Interpreter.asteriskButtonPressed(). Zunächst wird die *-Taste
+	 * ausgeführt, danach die Nummern "2333" mit den Wort "affe" simuliert. Zum Abschluss
+	 * wird überprüft, ob die korrekten Zahlen auf dem Display erscheinen.
+	 * 
+	 * @author Mark Eschweiler
+	 */
+	@Test
+	public void testNumberModus() {
+		interpreter.asteriskButtonPressed();
+		String numbers = phone.typeAsNumbers("affe");
+		super.assertEquals(numbers, "2333");
+		
 	}
 	
 

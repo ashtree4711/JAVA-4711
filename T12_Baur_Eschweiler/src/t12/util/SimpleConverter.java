@@ -3,10 +3,13 @@ package t12.util;
 public class SimpleConverter {
 	
 		/**
-		 * Zur besseren Verarbeitung im späteren Verlauf wird das Wort als String zu einem String @param key konvertiert.
+		 * Zur besseren Verarbeitung im späteren Verlauf wird das Wort als String zu einem String
+		 *  <code>key</key> konvertiert.
 		 * Ein Integer ist nicht nötig, da die Variable keine mathematischen Aufgabe zu lösen hat. 
 		 * @param word
-		 * @return
+		 * @return String key
+		 * 
+		 * @author Mark Eschweiler
 		 */
 	public String doConvert(String word) {
 		word=word.toLowerCase();
