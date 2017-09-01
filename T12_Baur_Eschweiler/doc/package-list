@@ -5,3 +5,4 @@ t12.phones.gui
 t12.spinphone
 t12.tests
 t12.util
+t12.util.comparator
