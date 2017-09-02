@@ -18,17 +18,17 @@ public class Corpus {
 	
 	private final static String ENCODING = "UTF-8";
 	
-	//private String[] regexes = {"\\p{Punct}", "\\s", "@", "[0-9]"};
+    private final static Integer MAX_WORD_LENGTH = 20;
 	
 	/**
 	 * Gibt rekursiv alle Dateien die sich innerhalb pathToTexts befinden. Dabei sollen nur ".txt"-Dateien
 	 * in die zu rueckgegebene Liste aufgenommen werden
 	 * 
-	 * @author thomas
 	 * @param   String pathToTexts  
 	 * 			Verzeichnis zu den Texten
 	 * @return  List<String> dateien  
 	 * 			Alle txt-Dateien aus dem Verzeichnis pathToTexts
+	 * @author  Thomas Baur
 	 */
 	public List<File> crawlFilesFromPath(String pathToTexts) {
 		
@@ -63,13 +63,14 @@ public class Corpus {
 	 * Durchsucht eine gegebene Datei (File file) mit dem BufferedReader zeilenweise
 	 * und gibt den Text als Ganzes zurueck in einem stringBuffer
 	 * 
-	 * @author thomas
+	 * 
 	 * @param File file
 	 * @param String encoding
 	 * @return String
 	 * @throws UnsupportedEncodingException
 	 * @throws FileNotFoundException
 	 * @throws IOException
+	 * @author Thomas Baur
 	 */
 	public static String getText(File file, String encoding)
 			throws UnsupportedEncodingException, FileNotFoundException,
@@ -95,7 +96,7 @@ public class Corpus {
 	 * Dabei kann nach bestimmten Kriterien gefiltert werden, sodass einzelne Zeichen eliminiert
 	 * werden und nicht in die Rueckgabe beruecksichtigt werden.
 	 * 
-	 * @author thomas
+	 * @author Thomas Baur
 	 * @param  List<File> files
 	 * 		   Eine Liste von Dateien
 	 * @return List<String> words
@@ -109,8 +110,10 @@ public class Corpus {
 			
 			String text = getText(files.get(i), Corpus.ENCODING); //System.out.println(text);	
 			if (filter == true) {
+				String regexMultipleChars = "(.)(\\1{1,2})\\1*";
+				
 				//Alles aus dem Text entfernen - entfernt u.a Satzzeichen und Zahlen
-				text = text.replaceAll("[0-9]", "").replaceAll("\\p{Punct}", "");
+				text = text.replaceAll("[0-9]", "").replaceAll("\\p{Punct}", "").replaceAll(regexMultipleChars, "");
 					
 				
 			}
@@ -127,12 +130,13 @@ public class Corpus {
 				//Text in einzelne Wörter zerteilen und in Kleinbuchstaben umwandeln
 				String subStringFromText = text.substring(start, end).toLowerCase(Locale.GERMAN);
 				
-				//Alle Wörter, die drei aufeinander folgende, gleiche Zeichen enthalten, sollen hier vorbehandelt werden
-				Pattern p = Pattern.compile("(.)(\\1{1,2})\\1*");
-		        Matcher m = p.matcher(subStringFromText);
-		        String s2 = m.replaceAll("$1$2");
-				
-				if (! subStringFromText.matches("\\s+")) {
+				/**
+				 *  Keine Leerzeichen oder White-Space-Character in die Liste aufnehmen und keine Wörter mit
+				 * aufnehmen, die größer sind als die maximale zulässige Zahl Zeichen <code>MAX_WORD_LENGTH</code>
+				 * @see: https://stackoverflow.com/questions/15625629/regex-expressions-in-java-s-vs-s
+				 */
+				if (! subStringFromText.matches("\\s+") && 
+						subStringFromText.length() < Corpus.MAX_WORD_LENGTH) {
 					
 					words.add(subStringFromText);
 				} else {
