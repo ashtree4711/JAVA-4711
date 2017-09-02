@@ -7,6 +7,7 @@ import java.util.List;
 
 import t12.phones.LexiconSerializationException;
 import t12.util.IntToChar;
+import t12.util.KeyConverter;
 import t12.util.LexiconToolbox;
 import t12.util.comparator.FrequencyComparator;
 import t12.util.comparator.KeyComparator;
@@ -24,7 +25,9 @@ public class TMT12Interpreter implements T12Interpreter {
 	private int lastNumber;
 	private int positionCounter;
 	private int alternativeCounter;
+	private int buttonClicked = 0;
 	private boolean numberModus;
+	private boolean upperMode;
 
 	/**
 	 * Die Methode ist vom Interface vorgegeben und wird immer aufgerufen,
@@ -50,7 +53,13 @@ public class TMT12Interpreter implements T12Interpreter {
 		} else {
 			this.currentWord=typeWord(number);
 		}
-		return this.currentWord;
+		
+		if (this.upperMode == true) {
+			System.out.println(currentWord);
+			return this.currentWord.toUpperCase();
+		} else {
+			return this.currentWord;
+		}
 	}
 	/**
 	 * Die Funktion delegiert den Umgang mit dem Input im Wortmodus. 
@@ -88,6 +97,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			lexiconList.add(this.currentLexicon); //4. add currentLexicon zu lexiconList
 			
 			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
+			System.out.print("Laenge " +this.currentWord.length());
 		}
 		else {
 			LexiconToolbox lf = new LexiconToolbox();
@@ -95,8 +105,8 @@ public class TMT12Interpreter implements T12Interpreter {
 				this.currentLexicon=lf.filtering(this.currentLexicon, positionCounter, number); // 2. hole gesamtes Lexicon (this.lexicon) 3. gib Lexicon in Filter (lexicon, position, buttonINT) --> RETURN FilteredLexicon
 				lexiconList.add(this.currentLexicon);
 				System.out.println("this.current: "+this.currentLexicon.size());
-				this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
-				}
+				this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);				
+			}
 			else {
 				System.out.println("Keine Weiteren Einträge vorhanden");
 			}
@@ -124,10 +134,16 @@ public class TMT12Interpreter implements T12Interpreter {
 		}
 		return this.currentWord;
 	}
+	
 	/**
+	 * Generiert das Lexikon anhand der .txt-Dateien. Dabei wird ein Pfad zu den txt-Dateien übergeben
+	 * und die lexFileDestination, dem Speicherort an dem die Binärdatei die Daten der einzelnen Wörter
+	 * aus dem Korpus abspeichert
+	 * 
+	 * @param  pathToTexts
+	 * @param  lexFileDestination
 	 * @author Thomas Baur
 	 */
-
 	@Override
 	public void generateLexicon(String pathToTexts, String lexFileDestination) {
 		// TODO Auto-generated method stub
@@ -202,9 +218,12 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 	}
 	
-/**
- * @author Thomas Baur
- */
+	/**
+	 * Lädt das aktuelle Lexikon.
+	 * 
+	 * @param  lexFilePath Pfad zur lex-Datei, die alle generierten Binärdaten des Lexikons beinhaltet
+	 * @author Thomas Baur
+	 */
 	@Override
 	public void loadLexicon(String lexFilePath) {
 		
@@ -222,6 +241,9 @@ public class TMT12Interpreter implements T12Interpreter {
 	}
 	
 	/**
+	 * Speichert ein Lexikon. Ruft die Methode @see {@link Lexicon#saveLexicon(Lexicon, String)} auf, die
+	 * als Eingabeparameter das Lexicon-Object und den Dateipfad zur .lex-Datei bekommt, in der das Object
+	 * als Binärdatei gespeichert werden soll.
 	 * 
 	 * @param lexicon
 	 * @param lexFilePath
@@ -272,6 +294,7 @@ public class TMT12Interpreter implements T12Interpreter {
 		System.out.println("Ein neues Wort wurde erfolgreich eingetragen, die neue Lexikongröße beträgt "+this.lexicon.size()+" Wörter");
 		
 	}
+	
 	/**
 	 * Es wird hier nur ein Schalter mit dem "*"-Button umgelegt, der zwischen Nummermodus und T9-Modus bestimmt. Alles weitere wird
 	 * in @see buttonPressed() behandelt
@@ -292,10 +315,23 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 	}
 
+	/**
+	 * Hier soll auf Groß-/Kleinschreibung umgeschaltet werden
+	 * 
+	 * @author Thomas Baur
+	 */
 	@Override
 	public void numberSignButtonPressed() {
 		this.alternativeCounter=0; //siehe getAlternative()
-		// TODO #-Button = Groß- und Kleinschreibung
+		//Zähler für Buttonklicks hochzählen bei jedem Klick
+		this.buttonClicked += 1;
+		if (buttonClicked % 2 == 0) {
+			upperMode = false;
+		} else {
+			upperMode = true;
+		}
+		
+		System.out.println("aktuell: " + currentWord + " / " + buttonClicked + "  " + upperMode);		
 		
 		
 	}
@@ -334,6 +370,7 @@ public class TMT12Interpreter implements T12Interpreter {
 		}
 		return this.currentWord;
 	}
+	
 	/**
 	 * Wird aufgerufen wenn "0" gedrückt wird. Gemäß der Anforderungen wird das geschriebene Wort versiegelt und muss
 	 * deshalb nicht mehr editierbar sein. Aus diesem Grund muss die Methode alles nur auf Anfang setzen, damit ein neues
@@ -359,6 +396,11 @@ public class TMT12Interpreter implements T12Interpreter {
 		this.lexiconList.clear();
 	}
 
+	/**
+	 * Zeigt die Namen der Programmautoren an, wenn man auf den Menüpunkt auf "Über dieses Programm..." klickt.
+	 * 
+	 * @author Thomas Baur
+	 */
 	@Override
 	public String getAuthorName() {
 		
