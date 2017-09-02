@@ -136,7 +136,7 @@ public class Corpus {
 				 * @see: https://stackoverflow.com/questions/15625629/regex-expressions-in-java-s-vs-s
 				 */
 				if (! subStringFromText.matches("\\s+") && 
-						subStringFromText.length() < Corpus.MAX_WORD_LENGTH) {
+						subStringFromText.length() <= Corpus.MAX_WORD_LENGTH) {
 					
 					words.add(subStringFromText);
 				} else {
