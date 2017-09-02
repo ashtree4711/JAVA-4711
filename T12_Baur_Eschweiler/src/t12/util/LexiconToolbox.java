@@ -76,7 +76,8 @@ public class LexiconToolbox {
 				}
 			}
 			if(rankedLex.size()==0) {
-				currentWord=currentLex.get(0).getWord().substring(0, characterSize+1);	
+				currentWord=currentLex.get(0).getWord().substring(0, characterSize+1);
+				System.out.println("Assuming...: "+currentLex.get(0).getWord());
 			}
 			rankedLex.sort(fc.reversed());
 			if (rankedLex.isEmpty()) {

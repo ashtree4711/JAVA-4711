@@ -6,12 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import t12.phones.LexiconSerializationException;
-import t12.util.IntToChar;
-import t12.util.KeyConverter;
 import t12.util.LexiconToolbox;
 import t12.util.comparator.FrequencyComparator;
-import t12.util.comparator.KeyComparator;
-import t12.util.comparator.WordComparator;
 
 public class TMT12Interpreter implements T12Interpreter {
 	
@@ -53,13 +49,15 @@ public class TMT12Interpreter implements T12Interpreter {
 		} else {
 			this.currentWord=typeWord(number);
 		}
-		
+		/*
 		if (this.upperMode == true) {
 			System.out.println(currentWord);
 			return this.currentWord.toUpperCase();
 		} else {
 			return this.currentWord;
 		}
+		*/
+		return this.currentWord;
 	}
 	/**
 	 * Die Funktion delegiert den Umgang mit dem Input im Wortmodus. 
@@ -94,7 +92,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			this.lexiconList = new LexiconList();
 			
 			this.currentLexicon=lf.filtering(this.currentLexicon, this.positionCounter, number);
-			lexiconList.add(this.currentLexicon); //4. add currentLexicon zu lexiconList
+			lexiconList.add(this.currentLexicon); 
 			
 			this.currentWord=lf.getMostFrequencyWord(currentLexicon, positionCounter, this.currentWord);
 			System.out.print("Laenge " +this.currentWord.length());
@@ -183,9 +181,9 @@ public class TMT12Interpreter implements T12Interpreter {
 			}
 			
 	/*
-	 * TESTUMGEBUNG FÜR DIE KONSOLE, SPÄTER LÖSCHEN!!!
+	 * Konsolenanzeige während Generierung
 	 */
-	// Er tut was, es dauert!
+	
 			System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
 			}
 		
@@ -287,7 +285,7 @@ public class TMT12Interpreter implements T12Interpreter {
 	public void learn(String newWord) {
 		
 		this.alternativeCounter=0; //siehe getAlternative()
-		newWord.toLowerCase();
+		newWord=newWord.toLowerCase();
 		WordObject word = new WordObject(newWord);
 		this.lexicon.add(word);
 		saveLexicon(lexicon, "SpinPhone.lex");
