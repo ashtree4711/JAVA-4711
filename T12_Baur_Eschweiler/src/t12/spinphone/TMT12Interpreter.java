@@ -160,7 +160,7 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		//Lexicon lexicon = new Lexicon();
 		//index.size() aus Testgründen auf 20000 geändert
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < index.size(); i++) {
 			WordObject word = new WordObject(index.get(i));
 			boolean found = false;
 			if (i==0) {
