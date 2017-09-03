@@ -49,14 +49,16 @@ public class TMT12Interpreter implements T12Interpreter {
 		} else {
 			this.currentWord=typeWord(number);
 		}
-		/*
-		if (this.upperMode == true) {
-			System.out.println(currentWord);
-			return this.currentWord.toUpperCase();
-		} else {
-			return this.currentWord;
+		if (this.currentWord!=null&&this.numberModus!=true) {
+			if (this.upperMode == true) {
+				System.out.println(currentWord);
+				this.currentWord=this.currentWord.toUpperCase();
+			} else {
+				this.currentWord=this.currentWord.toLowerCase();
+			}
 		}
-		*/
+		
+		
 		return this.currentWord;
 	}
 	/**
