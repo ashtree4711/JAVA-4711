@@ -558,7 +558,8 @@ public class SpinPhone extends JFrame {
 							"Das Lexikon enthält dieses Wort nicht. Bitte fügen Sie es hinzu");
 		}
 		if (newWord != null) { // warum??? er lernt egal was man eimgibt immer den aktuellen Stand --> BULLSHIT!
-			//interpreter.learn(newWord);
+			//interpreter.learn(newWord); Sobald ein Wort nicht vorhanden ist soll er ebenfalls lernen, jedoch führt diese Implementation dazu,
+			//dass das auch bereits vorhandene Wörter "neu" eingetragen werden.
 			this.currentWord = newWord;
 			display.setText(oldText + newWord);
 		} else {
