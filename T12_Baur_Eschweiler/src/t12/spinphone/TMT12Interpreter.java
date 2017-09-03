@@ -153,6 +153,10 @@ public class TMT12Interpreter implements T12Interpreter {
 		} catch (IOException e) {			
 			e.printStackTrace();
 		}
+		System.out.println(index.size());
+//		for (int i=0; i < index.size(); i++) {
+//			System.out.println(index.get(i));
+//		}
 		/*
 		 * Während der Lexikonaufnahme wird überprüft, ob das Wort bereits vorhanden ist. Wenn nicht, wird es eingetragen,
 		 * wenn doch, wird die Häufigkeit im passenden Wort-Objekt erhöht und kein neues Objekt erzeugt. Aktuell wird jedes 10. Objekt ins Lexikon aufgenommen

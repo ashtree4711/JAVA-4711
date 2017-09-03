@@ -39,9 +39,9 @@ public class Corpus {
 		if (pathToTexts == null || !file.isDirectory())
             return null;
 		//Alle Dateien auflisten
-        File[] fileArr = file.listFiles();
+        File[] fileArray = file.listFiles();
        
-		for (File f : fileArr) {
+		for (File f : fileArray) {
 						
             if (f.isDirectory()) {
                 crawlFilesFromPath(f.getPath());                
@@ -61,7 +61,7 @@ public class Corpus {
 	
 	/**
 	 * Durchsucht eine gegebene Datei (File file) mit dem BufferedReader zeilenweise
-	 * und gibt den Text als Ganzes zurueck in einem stringBuffer
+	 * und gibt den Text als Ganzes zurueck in einem stringBuffer.toString()
 	 * 
 	 * 
 	 * @param File file
@@ -105,15 +105,15 @@ public class Corpus {
 	 */
 	public List<String> getTokensFromFiles(List<File> files, Boolean filter) throws IOException {
 		List<String> words = new ArrayList<String>();
-		
+				
 		for (int i=0; i < files.size(); i++) {
 			
 			String text = getText(files.get(i), Corpus.ENCODING); //System.out.println(text);	
 			if (filter == true) {
-				String regexMultipleChars = "(.)(\\1{1,2})\\1*";
+				String regexMultipleChars = "(.)(\\1{1,1})\\1*";
 				
 				//Alles aus dem Text entfernen - entfernt u.a Satzzeichen und Zahlen
-				text = text.replaceAll("[0-9]", "").replaceAll("\\p{Punct}", "").replaceAll(regexMultipleChars, "");
+				text = text.replaceAll("[0-9]", "").replaceAll("\\p{Punct}", "");
 					
 				
 			}
@@ -130,6 +130,13 @@ public class Corpus {
 				//Text in einzelne Wörter zerteilen und in Kleinbuchstaben umwandeln
 				String subStringFromText = text.substring(start, end).toLowerCase(Locale.GERMAN);
 				
+				//Alle Wörter, die drei aufeinander folgende, gleiche Zeichen enthalten, sollen hier vorbehandelt werden
+				Pattern p = Pattern.compile("(.)(\\1{1,2})\\1*");
+				Matcher m = p.matcher(subStringFromText);
+				if (m.find() == true) {
+					subStringFromText = m.replaceAll("$1$2");
+				}
+				
 				/**
 				 *  Keine Leerzeichen oder White-Space-Character in die Liste aufnehmen und keine Wörter mit
 				 * aufnehmen, die größer sind als die maximale zulässige Zahl Zeichen <code>MAX_WORD_LENGTH</code>
@@ -139,6 +146,7 @@ public class Corpus {
 						subStringFromText.length() <= Corpus.MAX_WORD_LENGTH) {
 					
 					words.add(subStringFromText);
+					
 				} else {
 					//nix tun hier
 				}
