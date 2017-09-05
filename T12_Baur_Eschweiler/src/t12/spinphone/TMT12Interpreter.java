@@ -290,13 +290,27 @@ public class TMT12Interpreter implements T12Interpreter {
 	 */
 	@Override
 	public void learn(String newWord) {
+		boolean newWordTrue=true;
+		for (int i = 0; i < this.lexicon.size(); i++) {
+			if (this.lexicon.get(i).getWord().equals(newWord)) {
+				this.lexicon.get(i).raiseFrequency();
+				newWordTrue=false;
+				break;
+			}
+		}
+		if (newWordTrue==true) {
+			this.alternativeCounter=0; //siehe getAlternative()
+			newWord=newWord.toLowerCase();
+			WordObject word = new WordObject(newWord);
+			this.lexicon.add(word);
+			saveLexicon(lexicon, "SpinPhone.lex");
+			System.out.println("'"+newWord+"'"+" wurde erfolgreich eingetragen, die neue Lexikongröße beträgt "+this.lexicon.size());
+		} else {
+			System.out.println("'"+newWord+"'"+" ist im Lexicon bereits vorhanden");
+		}
 		
-		this.alternativeCounter=0; //siehe getAlternative()
-		newWord=newWord.toLowerCase();
-		WordObject word = new WordObject(newWord);
-		this.lexicon.add(word);
-		saveLexicon(lexicon, "SpinPhone.lex");
-		System.out.println("Ein neues Wort wurde erfolgreich eingetragen, die neue Lexikongröße beträgt "+this.lexicon.size()+" Wörter");
+		
+		
 		
 	}
 	
@@ -389,9 +403,9 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		for (int i = 0; i < this.lexicon.size(); i++) {
 			if(this.lexicon.get(i).getWord()==this.currentWord) {
-				System.out.println("Häufigkeit zuvor: "+this.lexicon.get(i).getFrequency());
+				int oldFrequency = this.lexicon.get(i).getFrequency();
 				this.lexicon.get(i).raiseFrequency();
-				System.out.println("Häufigkeit danach: "+this.lexicon.get(i).getFrequency());
+				System.out.println("Häufigkeit von '"+this.lexicon.get(i).getWord()+"' von "+oldFrequency+" auf "+this.lexicon.get(i).getFrequency()+" erhöht.");
 			}	
 		}
 		saveLexicon(this.lexicon, "SpinPhone.lex");

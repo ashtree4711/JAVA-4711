@@ -556,6 +556,8 @@ public class SpinPhone extends JFrame {
 			newWord = JOptionPane
 					.showInputDialog(this,
 							"Das Lexikon enthält dieses Wort nicht. Bitte fügen Sie es hinzu");
+			interpreter.learn(newWord); //Änderung
+			
 		}
 		if (newWord != null) { // warum??? er lernt egal was man eimgibt immer den aktuellen Stand --> BULLSHIT!
 			//interpreter.learn(newWord); Sobald ein Wort nicht vorhanden ist soll er ebenfalls lernen, jedoch führt diese Implementation dazu,

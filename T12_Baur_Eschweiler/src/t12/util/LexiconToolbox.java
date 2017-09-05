@@ -39,7 +39,6 @@ public class LexiconToolbox {
 			}
 		}
 		FrequencyComparator fc = new FrequencyComparator();
-		System.out.println("Zahl der mögl. Wörter: "+filteredLex.size());
 		filteredLex.sort(fc.reversed());
 		
 		return filteredLex;
@@ -67,7 +66,7 @@ public class LexiconToolbox {
 	public String getMostFrequencyWord(Lexicon currentLex, int characterSize, String currentWord) {
 		FrequencyComparator fc = new FrequencyComparator();
 		currentLex.sort(fc);
-		System.out.println("GMFW-currentLex: "+currentLex.size());
+		System.out.println("Potenzielle Wörter im Lexikon: "+currentLex.size());
 		Lexicon rankedLex = new Lexicon();
 		if(currentLex.size()!=0) {
 			for (int i = 0; i < currentLex.size(); i++) {
@@ -76,7 +75,7 @@ public class LexiconToolbox {
 					System.out.println("Rank: " +(i+1)+" | "+currentLex.get(i).getWord()+" | "+currentLex.get(i).getFrequency());
 				}
 			}
-			System.out.println("GMFW-rankedLex: "+rankedLex.size());	
+			System.out.println("Wörter mit übereinstimmender Stellenzahl: "+rankedLex.size());	
 			if(rankedLex.size()==0) {
 				currentWord=currentLex.get(0).getWord().substring(0, characterSize+1);
 				System.out.println("Assuming...: "+currentLex.get(0).getWord());
@@ -114,10 +113,6 @@ public String getAlternativeWord(Lexicon currentLex, int characterSize, String c
 		else {
 			return currentWord;
 		}
-		
-		
-		
-		
-		
+	
 	}
 }
