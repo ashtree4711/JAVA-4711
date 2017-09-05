@@ -67,14 +67,16 @@ public class LexiconToolbox {
 	public String getMostFrequencyWord(Lexicon currentLex, int characterSize, String currentWord) {
 		FrequencyComparator fc = new FrequencyComparator();
 		currentLex.sort(fc);
+		System.out.println("GMFW-currentLex: "+currentLex.size());
 		Lexicon rankedLex = new Lexicon();
 		if(currentLex.size()!=0) {
 			for (int i = 0; i < currentLex.size(); i++) {
-				if (currentLex.get(i).getWord().length()==characterSize) {
+				if (currentLex.get(i).getWord().length()==characterSize+1) {
 					rankedLex.add(currentLex.get(i));
 					System.out.println("Rank: " +(i+1)+" | "+currentLex.get(i).getWord()+" | "+currentLex.get(i).getFrequency());
 				}
 			}
+			System.out.println("GMFW-rankedLex: "+rankedLex.size());	
 			if(rankedLex.size()==0) {
 				currentWord=currentLex.get(0).getWord().substring(0, characterSize+1);
 				System.out.println("Assuming...: "+currentLex.get(0).getWord());

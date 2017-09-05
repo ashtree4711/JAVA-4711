@@ -87,6 +87,7 @@ public class TMT12Interpreter implements T12Interpreter {
 	 * @author Mark Eschweiler
 	 */
 	private String typeWord(int number) {
+		
 		if (this.positionCounter==0) {
 			LexiconToolbox lf = new LexiconToolbox();
 			this.currentLexicon=this.lexicon;
