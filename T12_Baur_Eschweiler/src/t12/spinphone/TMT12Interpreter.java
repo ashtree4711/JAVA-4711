@@ -36,30 +36,40 @@ public class TMT12Interpreter implements T12Interpreter {
 	 * an die @see typeWord()
 	 * @author Mark Eschweiler
 	 */
+	@SuppressWarnings("finally")
 	@Override
 	public String buttonPressed(int number) {
-		System.out.println("Überprüfe aktuelle Lexikongröße: "+this.lexicon.size()+" Wörter");
-		System.out.println("Nummermodus: "+this.numberModus);
-		System.out.println("Input: "+number);
-		this.lastNumber=number;
-		this.alternativeCounter=0; //siehe getAlternative()
 		
-		if (this.numberModus==true) {
-			this.currentWord=typeNumbers(number);
-		} else {
-			this.currentWord=typeWord(number);
-		}
-		if (this.currentWord!=null&&this.numberModus!=true) {
-			if (this.upperMode == true) {
-				System.out.println(currentWord);
-				this.currentWord=this.currentWord.toUpperCase();
+		try {
+			System.out.println("Überprüfe aktuelle Lexikongröße: "+this.lexicon.size()+" Wörter");
+			System.out.println("Nummermodus: "+this.numberModus);
+			System.out.println("Input: "+number);
+			this.lastNumber=number;
+			this.alternativeCounter=0; //siehe getAlternative()
+			
+			if (this.numberModus==true) {
+				this.currentWord=typeNumbers(number);
 			} else {
-				this.currentWord=this.currentWord.toLowerCase();
+				this.currentWord=typeWord(number);
 			}
+			if (this.currentWord!=null&&this.numberModus!=true) {
+				if (this.upperMode == true) {
+					System.out.println(currentWord);
+					this.currentWord=this.currentWord.toUpperCase();
+				} else {
+					this.currentWord=this.currentWord.toLowerCase();
+				}
+			}
+		} catch(NullPointerException e) {
+			// e.printStackTrace();
+			System.out.println("ACHTUNG! Es wurde bisher kein Lexikon geladen!");
+		} finally {
+			return this.currentWord;
 		}
 		
 		
-		return this.currentWord;
+		
+		
 	}
 	/**
 	 * Die Funktion delegiert den Umgang mit dem Input im Wortmodus. 
@@ -290,23 +300,28 @@ public class TMT12Interpreter implements T12Interpreter {
 	 */
 	@Override
 	public void learn(String newWord) {
-		boolean newWordTrue=true;
-		for (int i = 0; i < this.lexicon.size(); i++) {
-			if (this.lexicon.get(i).getWord().equals(newWord)) {
-				this.lexicon.get(i).raiseFrequency();
-				newWordTrue=false;
-				break;
+		
+		try {
+			boolean newWordTrue=true;
+			for (int i = 0; i < this.lexicon.size(); i++) {
+				if (this.lexicon.get(i).getWord().equals(newWord)) {
+					this.lexicon.get(i).raiseFrequency();
+					newWordTrue=false;
+					break;
+				}
 			}
-		}
-		if (newWordTrue==true) {
-			this.alternativeCounter=0; //siehe getAlternative()
-			newWord=newWord.toLowerCase();
-			WordObject word = new WordObject(newWord);
-			this.lexicon.add(word);
-			saveLexicon(lexicon, "SpinPhone.lex");
-			System.out.println("'"+newWord+"'"+" wurde erfolgreich eingetragen, die neue Lexikongröße beträgt "+this.lexicon.size());
-		} else {
-			System.out.println("'"+newWord+"'"+" ist im Lexicon bereits vorhanden");
+			if (newWordTrue==true) {
+				this.alternativeCounter=0; //siehe getAlternative()
+				newWord=newWord.toLowerCase();
+				WordObject word = new WordObject(newWord);
+				this.lexicon.add(word);
+				saveLexicon(lexicon, "SpinPhone.lex");
+				System.out.println("'"+newWord+"'"+" wurde erfolgreich eingetragen, die neue Lexikongröße beträgt "+this.lexicon.size());
+			} else {
+				System.out.println("'"+newWord+"'"+" ist im Lexicon bereits vorhanden");
+			}
+		} catch (NullPointerException e) {
+			System.out.println("Es wurde kein Wort zum lernen hinzugefügt, weil die Eingabe leer war!");
 		}
 		
 		
