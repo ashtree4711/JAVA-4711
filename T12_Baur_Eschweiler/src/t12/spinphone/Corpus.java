@@ -14,6 +14,17 @@ import java.util.regex.Pattern;
 
 public class Corpus {
 	
+	/**
+	 * Die Klasse repräsentiert den Wortkorpus, der aus den vorhandenen Textdateien
+	 * zusammengebaut wird. Enthält alle nötigen Methoden, um Dateien zu durchcrawlen
+	 * und deren Texte herauszufiltern und anschließend alle Wörter als ganzes zu tokanisieren.
+	 * @author Thomas Baur
+	 */
+	
+	/**
+	 * List<File> dateien
+	 * ArrayList mit allen Dateien, die Text enhalten
+	 */
 	public List<File> dateien = new ArrayList<>();
 	
 	private final static String ENCODING = "UTF-8";
@@ -92,7 +103,7 @@ public class Corpus {
 	
 	
 	/**
-	 * Ruft die Methode getText auf und zerlegt den Text in einzelne Tokens.
+	 * Ruft die Methode @see t12.spinphone.Corpus.getText() auf und zerlegt den Text in einzelne Tokens.
 	 * Dabei kann nach bestimmten Kriterien gefiltert werden, sodass einzelne Zeichen eliminiert
 	 * werden und nicht in die Rueckgabe beruecksichtigt werden.
 	 * 
@@ -149,8 +160,7 @@ public class Corpus {
 					
 				} else {
 					//nix tun hier
-				}
-					
+				}					
 			
 	
 				start = end;

@@ -26,9 +26,9 @@ public class Lexicon extends ArrayList<WordObject> implements Serializable{
 	 * saveLexicon(Lexicon lexicon) speichert eine .lex-Datei mit den Daten des Objekts vom
 	 * Typ Lexicon. Die Daten werden serialisiert abgespeichert.
 	 * 
-	 * @author thomas
 	 * @param lexicon
 	 * @throws LexiconSerializationException
+	 * @author Thomas Baur
 	 */
 	public static void saveLexicon(Lexicon lexicon, String lexFileDest) throws LexiconSerializationException {
 		try {
@@ -45,13 +45,15 @@ public class Lexicon extends ArrayList<WordObject> implements Serializable{
 	}
 	
 	/**
-	 * loadLexicon() - lädt eine vorhandene .lex-Datei mithilfe des FileInputStreams
+	 * loadLexicon() - lädt eine vorhandene .lex-Datei mithilfe des FileInputStreams.
+	 * Der FileInputStream wird einem BufferedInputStream übergeben und dieser einem ObjectInputStream
+	 * weitergegeben.
 	 * Die Funktion gibt eine Objekt-Repräsentation vom Typ Lexicon zurück.
 	 * 
-	 * @author thomas
-	 * @return
+	 * @return lexicon
 	 * @throws IOException
 	 * @throws ClassNotFoundException
+	 * @author Thomas Baur
 	 */
 	public static Lexicon loadLexicon() throws IOException, ClassNotFoundException {
 		
