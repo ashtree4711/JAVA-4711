@@ -44,6 +44,7 @@ public class LexiconToolbox {
 		return filteredLex;
 		
 	}
+	
 	/**
 	 * Die Methode bestimmt anhand des aktuellen gefilterten Lexikons @see filtering(), der aktuellen Wortlänge
 	 * sowie des letzten Wortes, das nächste Wort vorschlagen bzw. übergeben, als auch die Suche nach
@@ -92,7 +93,23 @@ public class LexiconToolbox {
 			return null;
 		}	
 	}
-public String getAlternativeWord(Lexicon currentLex, int characterSize, String currentWord, int alternativeCounter) {
+	
+	/**
+	 * Diese Methode gibt ein Alternativword zurück, welches zur aktuellen Eingabe passen könnte anhand
+	 * der aktuellen Wortlänge.
+	 * Ein Alternativwort wird in der GUI ausgegeben, wenn der Benutzer auf den Button "alternative" klickt.
+	 * So könnte anstatt "an" das Wort "am" als Alternative ausgegeben werden.
+	 * 
+	 * @param  currentLex   Wird benötigt, damit die zuvor gefilterte Stelle in einem möglichen Wort nicht nochmal 
+	 * überprüft werden muss. Es enthält alle nun möglichen Worte
+	 * 
+	 * @param  characterSize
+	 * @param  currentWord
+	 * @param  alternativeCounter
+	 * @return String  currentWord
+	 * @author         Mark Eschweiler und Thomas Baur
+	 */
+	public String getAlternativeWord(Lexicon currentLex, int characterSize, String currentWord, int alternativeCounter) {
 		
 		
 		
