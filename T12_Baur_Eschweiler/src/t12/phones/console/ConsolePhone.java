@@ -135,7 +135,7 @@ public class ConsolePhone {
 				System.out.println("ConsolePhone: " + current);
 			}
 		}
-		//interpreter.wordCompleted(); BEGRÜNDUNG liefern!
+		//interpreter.wordCompleted(); Aufgrund dieses Methoden-Aufrufs läuft in unserem System der Test fehl.  
 		return current;
 	}
 
@@ -153,7 +153,7 @@ public class ConsolePhone {
 		}
 		System.out.println("*******");
 		System.out.println("ConsolePhone: Suche nach Alternative");
-		String alternative = interpreter.getAlternative(); //null!!! bei Test
+		String alternative = interpreter.getAlternative();
 		System.out.println("ConsolePhone: Alternative: " + alternative);
 		return alternative;
 	}

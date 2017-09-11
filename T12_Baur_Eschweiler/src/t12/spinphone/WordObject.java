@@ -17,8 +17,9 @@ public class WordObject implements Serializable{
 	/**
 	 * Beim Aufruf des Konstrukturs, der für jedes Wort aus dem Corpus nur einmal aufgerufen wird. Wird das Wort
 	 * unter @param word eingetragen, sofort ein Key generiert @param key und die Häufigkeit @param frequency auf "1"
-	 * gesetzt. Taucht ein Wort ein zweites mal auf, soll nur die Häufigkeit des Wort-Objektes erhöht werden.
-	 * @param word
+	 * gesetzt. Taucht ein Wort ein zweites mal auf, soll nur die Häufigkeit des Wort-Objektes erhöht werden. Des Weiteren verfügt
+	 * die Klasse über Setter und Getter.
+	 * @param word: Das eigentliche Word wird als String übergeben
 	 */
 	public WordObject(String word) {
 		super();
@@ -42,22 +43,11 @@ public class WordObject implements Serializable{
 	 * Die Nutzung von Strings ist sinnvoll, da mit den Keys keine mathematischen Rechnungen erfolgen und
 	 * mithilfe der .charAt() nach einzelnen Stellen gefiltert werden kann.
 	 * @param word
-	 * @return
+	 * @return key
 	 */
 	public String convertToKey(String word) {
 		SimpleConverter sc = new SimpleConverter();
 		String key=sc.doConvert(word);
-		
-		
-		/*KeyConverter kc = new KeyConverter();
-		String codedNumber;
-		for (int i = 0; i < word.length(); i++) {
-			int number;
-			number=kc.convertToNumber(word.charAt(i));
-			
-			
-		}
-		kc.*/
 		
 		return key;
 	}

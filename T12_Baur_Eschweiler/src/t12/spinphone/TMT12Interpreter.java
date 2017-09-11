@@ -66,10 +66,6 @@ public class TMT12Interpreter implements T12Interpreter {
 		} finally {
 			return this.currentWord;
 		}
-		
-		
-		
-		
 	}
 	/**
 	 * Die Funktion delegiert den Umgang mit dem Input im Wortmodus. 
@@ -165,16 +161,6 @@ public class TMT12Interpreter implements T12Interpreter {
 			e.printStackTrace();
 		}
 		System.out.println(index.size());
-//		for (int i=0; i < index.size(); i++) {
-//			System.out.println(index.get(i));
-//		}
-		/*
-		 * Während der Lexikonaufnahme wird überprüft, ob das Wort bereits vorhanden ist. Wenn nicht, wird es eingetragen,
-		 * wenn doch, wird die Häufigkeit im passenden Wort-Objekt erhöht und kein neues Objekt erzeugt. Aktuell wird jedes 10. Objekt ins Lexikon aufgenommen
-		 */
-		
-		//Lexicon lexicon = new Lexicon();
-		//index.size() aus Testgründen auf 20000 geändert
 		for (int i = 0; i < index.size(); i++) {
 			WordObject word = new WordObject(index.get(i));
 			boolean found = false;
@@ -185,10 +171,7 @@ public class TMT12Interpreter implements T12Interpreter {
 				for (int j = 0; j < lexicon.size(); j++) {
 					if(index.get(i).equals(lexicon.get(j).getWord())) {
 						lexicon.get(j).raiseFrequency();
-						found = true;
-						
-						
-						
+						found = true;	
 					}	
 				}
 				if (found == false)
@@ -196,32 +179,17 @@ public class TMT12Interpreter implements T12Interpreter {
 					lexicon.add(word);
 				}
 			}
-			
-	/*
-	 * Konsolenanzeige während Generierung
-	 */
-	
 			System.out.println("Corpus: "+i+"/"+index.size()+" :::::: Lexikonaufnahme: "+lexicon.size()+"/"+i);
 			}
-		
-	//currentLexicon nimmt nur alle Wörter auf, die mindestens zweimal im Corpus vorkommen
 		Lexicon currentLexicon = new Lexicon();
 		for (int i = 0; i < lexicon.size(); i++) {
 			if (lexicon.get(i).getFrequency()>1) {
 				currentLexicon.add(lexicon.get(i));
 			}
-			
 		}
-		
-		
 		FrequencyComparator fc = new FrequencyComparator();
-		
-		
 		System.out.println("Sorting...");
 		lexicon.sort(fc);
-		
-		
-		
 		System.out.println("Lexikongröße beträgt "+lexicon.size()+" Wörter");
 		
 		try {
@@ -229,8 +197,6 @@ public class TMT12Interpreter implements T12Interpreter {
 		} catch (LexiconSerializationException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	/**
@@ -251,8 +217,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			} catch (IOException e) {				
 				e.printStackTrace();
 			}
-		}
-		
+		}	
 	}
 	
 	/**
@@ -328,7 +293,6 @@ public class TMT12Interpreter implements T12Interpreter {
 		
 		
 	}
-	
 	/**
 	 * Es wird hier nur ein Schalter mit dem "*"-Button umgelegt, der zwischen Nummermodus und T9-Modus bestimmt. Alles weitere wird
 	 * in @see buttonPressed() behandelt
@@ -345,10 +309,7 @@ public class TMT12Interpreter implements T12Interpreter {
 			this.numberModus=true;
 		}
 		System.out.println("Nummermodus: "+this.numberModus);
-		
-		
 	}
-
 	/**
 	 * Hier soll auf Groß-/Kleinschreibung umgeschaltet werden
 	 * 
